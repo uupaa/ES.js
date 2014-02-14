@@ -5,15 +5,15 @@ ES.js is ECMA-262 Script version 5 polyfill/fallback/shims.
 
 # API Document
 
-https://github.com/uupaa/ES5.js/wiki/ES5
+https://github.com/uupaa/ES.js/wiki/ES
 
 # Install, Setup modules
 
 ```sh
 $ brew install closure-compiler
 
-$ git clone git@github.com:uupaa/ES5.js.git
-$ cd ES5.js
+$ git clone git@github.com:uupaa/ES.js.git
+$ cd ES.js
 $ npm install
 ```
 
@@ -24,7 +24,7 @@ $ npm start
 
   or
 
-$ node node_modules/uupaa.minify.js --keep --output ./lib/ES5.min.js ./lib/ES5.js
+$ node node_modules/uupaa.minify.js --keep --output ./lib/ES.min.js ./lib/ES.js
 ```
 
 # Test

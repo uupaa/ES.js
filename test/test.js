@@ -25,9 +25,11 @@ new Test().add([
         // --- reduce complex ---
         testArray_reduce_complex,
         testArray_reduceRight_complex,
+        // --- ES6 ---
+        testArray_Iterator,
     ]).run().worker(function(err, test) {
         if (!err) {
-            var undo = Test.swap(ES5, ES5_);
+            var undo = Test.swap(ES, ES_);
 
             new Test(test).run(function(err, test) {
                 undo = Test.undo(undo);
@@ -36,7 +38,7 @@ new Test().add([
     });
 
 function testSetup(next) {
-    ES5();
+    ES(6.0);
 
     console.log("testSetup ok");
     next && next.pass();
@@ -45,9 +47,9 @@ function testSetup(next) {
 function testObject_keys(next) {
     var source1 = { a: 1, b: 2, c: 3, d: 4 };
     var source2 = [ 1, 2, 3, 4 ];
-    var result1 = ES5.Object.keys(source1);
+    var result1 = ES.Object.keys(source1);
     var native1 = Object.keys(source1);
-    var result2 = ES5.Object.keys(source2);
+    var result2 = ES.Object.keys(source2);
     var native2 = Object.keys(source2);
 
     if ( JSON.stringify(result1) === JSON.stringify(native1) &&
@@ -63,9 +65,9 @@ function testObject_keys(next) {
 function testArray_isArray(next) {
     var source1 = { a: 1, b: 2, c: 3, d: 4 };
     var source2 = [ 1, 2, 3, 4 ];
-    var result1 = ES5.Array.isArray(source1);
+    var result1 = ES.Array.isArray(source1);
     var native1 = Array.isArray(source1);
-    var result2 = ES5.Array.isArray(source2);
+    var result2 = ES.Array.isArray(source2);
     var native2 = Array.isArray(source2);
 
     if ( JSON.stringify(result1) === JSON.stringify(native1) &&
@@ -81,9 +83,9 @@ function testArray_isArray(next) {
 function testArray_indexOf(next) {
     var source1 = { a: 1, b: 2, c: 3, d: 4 };
     var source2 = [ 1, 2, 3, 4 ];
-    var result1 = ES5.Array.prototype.indexOf.call(source1, 2);
+    var result1 = ES.Array.prototype.indexOf.call(source1, 2);
     var native1 = Array.prototype.indexOf.call(source1, 2);
-    var result2 = ES5.Array.prototype.indexOf.call(source2, 2);
+    var result2 = ES.Array.prototype.indexOf.call(source2, 2);
     var native2 = Array.prototype.indexOf.call(source2, 2);
 
     if ( JSON.stringify(result1) === JSON.stringify(native1) &&
@@ -99,9 +101,9 @@ function testArray_indexOf(next) {
 function testArray_lastIndexOf(next) {
     var source1 = { a: 1, b: 2, c: 3, d: 4 };
     var source2 = [ 1, 2, 3, 4 ];
-    var result1 = ES5.Array.prototype.lastIndexOf.call(source1, 2);
+    var result1 = ES.Array.prototype.lastIndexOf.call(source1, 2);
     var native1 = Array.prototype.lastIndexOf.call(source1, 2);
-    var result2 = ES5.Array.prototype.lastIndexOf.call(source2, 2);
+    var result2 = ES.Array.prototype.lastIndexOf.call(source2, 2);
     var native2 = Array.prototype.lastIndexOf.call(source2, 2);
 
     if ( JSON.stringify(result1) === JSON.stringify(native1) &&
@@ -122,13 +124,13 @@ function testArray_forEach(next) {
     var result2 = [];
     var native2 = [];
 
-    ES5.Array.prototype.forEach.call(source1, function(value, index) {
+    ES.Array.prototype.forEach.call(source1, function(value, index) {
         result1[value] = index;
     });
     Array.prototype.forEach.call(source1, function(value, index) {
         native1[value] = index;
     });
-    ES5.Array.prototype.forEach.call(source2, function(value, index) {
+    ES.Array.prototype.forEach.call(source2, function(value, index) {
         result2[value] = index;
     });
     Array.prototype.forEach.call(source2, function(value, index) {
@@ -153,13 +155,13 @@ function testArray_map(next) {
     var result2 = [];
     var native2 = [];
 
-    result1 = ES5.Array.prototype.map.call(source1, function(value, index) {
+    result1 = ES.Array.prototype.map.call(source1, function(value, index) {
         return value;
     });
     native1 = Array.prototype.map.call(source1, function(value, index) {
         return value;
     });
-    result2 = ES5.Array.prototype.map.call(source2, function(value, index) {
+    result2 = ES.Array.prototype.map.call(source2, function(value, index) {
         return value;
     });
     native2 = Array.prototype.map.call(source2, function(value, index) {
@@ -184,13 +186,13 @@ function testArray_some(next) {
     var result2 = [];
     var native2 = [];
 
-    result1 = ES5.Array.prototype.some.call(source1, function(value, index) {
+    result1 = ES.Array.prototype.some.call(source1, function(value, index) {
         return value < 3;
     });
     native1 = Array.prototype.some.call(source1, function(value, index) {
         return value < 3;
     });
-    result2 = ES5.Array.prototype.some.call(source2, function(value, index) {
+    result2 = ES.Array.prototype.some.call(source2, function(value, index) {
         return value < 3;
     });
     native2 = Array.prototype.some.call(source2, function(value, index) {
@@ -215,13 +217,13 @@ function testArray_every(next) {
     var result2 = [];
     var native2 = [];
 
-    result1 = ES5.Array.prototype.every.call(source1, function(value, index) {
+    result1 = ES.Array.prototype.every.call(source1, function(value, index) {
         return value < 3;
     });
     native1 = Array.prototype.every.call(source1, function(value, index) {
         return value < 3;
     });
-    result2 = ES5.Array.prototype.every.call(source2, function(value, index) {
+    result2 = ES.Array.prototype.every.call(source2, function(value, index) {
         return value < 3;
     });
     native2 = Array.prototype.every.call(source2, function(value, index) {
@@ -246,13 +248,13 @@ function testArray_filter(next) {
     var result2 = [];
     var native2 = [];
 
-    result1 = ES5.Array.prototype.filter.call(source1, function(value, index) {
+    result1 = ES.Array.prototype.filter.call(source1, function(value, index) {
         return value % 2;
     });
     native1 = Array.prototype.filter.call(source1, function(value, index) {
         return value % 2;
     });
-    result2 = ES5.Array.prototype.filter.call(source2, function(value, index) {
+    result2 = ES.Array.prototype.filter.call(source2, function(value, index) {
         return value % 2;
     });
     native2 = Array.prototype.filter.call(source2, function(value, index) {
@@ -277,13 +279,13 @@ function testArray_reduce(next) {
     var result2 = [];
     var native2 = [];
 
-    result1 = ES5.Array.prototype.reduce.call(source1, function(prev, curt, index) {
+    result1 = ES.Array.prototype.reduce.call(source1, function(prev, curt, index) {
         return prev * curt + index;
     }, 3);
     native1 = Array.prototype.reduce.call(source1, function(prev, curt, index) {
         return prev * curt + index;
     }, 3);
-    result2 = ES5.Array.prototype.reduce.call(source2, function(prev, curt, index) {
+    result2 = ES.Array.prototype.reduce.call(source2, function(prev, curt, index) {
         return prev * curt + index;
     }, 3);
     native2 = Array.prototype.reduce.call(source2, function(prev, curt, index) {
@@ -308,13 +310,13 @@ function testArray_reduceRight(next) {
     var result2 = [];
     var native2 = [];
 
-    result1 = ES5.Array.prototype.reduceRight.call(source1, function(prev, curt, index) {
+    result1 = ES.Array.prototype.reduceRight.call(source1, function(prev, curt, index) {
         return prev * curt + index;
     }, 3);
     native1 = Array.prototype.reduceRight.call(source1, function(prev, curt, index) {
         return prev * curt + index;
     }, 3);
-    result2 = ES5.Array.prototype.reduceRight.call(source2, function(prev, curt, index) {
+    result2 = ES.Array.prototype.reduceRight.call(source2, function(prev, curt, index) {
         return prev * curt + index;
     }, 3);
     native2 = Array.prototype.reduceRight.call(source2, function(prev, curt, index) {
@@ -338,9 +340,9 @@ function testArray_sparse_indexOf(next) {
     delete source1["b"];
     delete source2[1];
 
-    var result1 = ES5.Array.prototype.indexOf.call(source1, 2);
+    var result1 = ES.Array.prototype.indexOf.call(source1, 2);
     var native1 = Array.prototype.indexOf.call(source1, 2);
-    var result2 = ES5.Array.prototype.indexOf.call(source2, 2);
+    var result2 = ES.Array.prototype.indexOf.call(source2, 2);
     var native2 = Array.prototype.indexOf.call(source2, 2);
 
     if ( JSON.stringify(result1) === JSON.stringify(native1) &&
@@ -360,9 +362,9 @@ function testArray_sparse_lastIndexOf(next) {
     delete source1["b"];
     delete source2[1];
 
-    var result1 = ES5.Array.prototype.lastIndexOf.call(source1, 2);
+    var result1 = ES.Array.prototype.lastIndexOf.call(source1, 2);
     var native1 = Array.prototype.lastIndexOf.call(source1, 2);
-    var result2 = ES5.Array.prototype.lastIndexOf.call(source2, 2);
+    var result2 = ES.Array.prototype.lastIndexOf.call(source2, 2);
     var native2 = Array.prototype.lastIndexOf.call(source2, 2);
 
     if ( JSON.stringify(result1) === JSON.stringify(native1) &&
@@ -387,13 +389,13 @@ function testArray_sparse_forEach(next) {
     var result2 = [];
     var native2 = [];
 
-    ES5.Array.prototype.forEach.call(source1, function(value, index) {
+    ES.Array.prototype.forEach.call(source1, function(value, index) {
         result1[value] = index;
     });
     Array.prototype.forEach.call(source1, function(value, index) {
         native1[value] = index;
     });
-    ES5.Array.prototype.forEach.call(source2, function(value, index) {
+    ES.Array.prototype.forEach.call(source2, function(value, index) {
         result2[value] = index;
     });
     Array.prototype.forEach.call(source2, function(value, index) {
@@ -422,13 +424,13 @@ function testArray_sparse_map(next) {
     var result2 = [];
     var native2 = [];
 
-    result1 = ES5.Array.prototype.map.call(source1, function(value, index) {
+    result1 = ES.Array.prototype.map.call(source1, function(value, index) {
         return value;
     });
     native1 = Array.prototype.map.call(source1, function(value, index) {
         return value;
     });
-    result2 = ES5.Array.prototype.map.call(source2, function(value, index) {
+    result2 = ES.Array.prototype.map.call(source2, function(value, index) {
         return value;
     });
     native2 = Array.prototype.map.call(source2, function(value, index) {
@@ -457,13 +459,13 @@ function testArray_sparse_some(next) {
     var result2 = [];
     var native2 = [];
 
-    result1 = ES5.Array.prototype.some.call(source1, function(value, index) {
+    result1 = ES.Array.prototype.some.call(source1, function(value, index) {
         return value < 3;
     });
     native1 = Array.prototype.some.call(source1, function(value, index) {
         return value < 3;
     });
-    result2 = ES5.Array.prototype.some.call(source2, function(value, index) {
+    result2 = ES.Array.prototype.some.call(source2, function(value, index) {
         return value < 3;
     });
     native2 = Array.prototype.some.call(source2, function(value, index) {
@@ -492,13 +494,13 @@ function testArray_sparse_every(next) {
     var result2 = [];
     var native2 = [];
 
-    result1 = ES5.Array.prototype.every.call(source1, function(value, index) {
+    result1 = ES.Array.prototype.every.call(source1, function(value, index) {
         return value < 3;
     });
     native1 = Array.prototype.every.call(source1, function(value, index) {
         return value < 3;
     });
-    result2 = ES5.Array.prototype.every.call(source2, function(value, index) {
+    result2 = ES.Array.prototype.every.call(source2, function(value, index) {
         return value < 3;
     });
     native2 = Array.prototype.every.call(source2, function(value, index) {
@@ -527,13 +529,13 @@ function testArray_sparse_filter(next) {
     var result2 = [];
     var native2 = [];
 
-    result1 = ES5.Array.prototype.filter.call(source1, function(value, index) {
+    result1 = ES.Array.prototype.filter.call(source1, function(value, index) {
         return value % 2;
     });
     native1 = Array.prototype.filter.call(source1, function(value, index) {
         return value % 2;
     });
-    result2 = ES5.Array.prototype.filter.call(source2, function(value, index) {
+    result2 = ES.Array.prototype.filter.call(source2, function(value, index) {
         return value % 2;
     });
     native2 = Array.prototype.filter.call(source2, function(value, index) {
@@ -562,13 +564,13 @@ function testArray_sparse_reduce(next) {
     var result2 = [];
     var native2 = [];
 
-    result1 = ES5.Array.prototype.reduce.call(source1, function(prev, curt, index) {
+    result1 = ES.Array.prototype.reduce.call(source1, function(prev, curt, index) {
         return prev * curt + index;
     }, 3);
     native1 = Array.prototype.reduce.call(source1, function(prev, curt, index) {
         return prev * curt + index;
     }, 3);
-    result2 = ES5.Array.prototype.reduce.call(source2, function(prev, curt, index) {
+    result2 = ES.Array.prototype.reduce.call(source2, function(prev, curt, index) {
         return prev * curt + index;
     }, 3);
     native2 = Array.prototype.reduce.call(source2, function(prev, curt, index) {
@@ -597,13 +599,13 @@ function testArray_sparse_reduceRight(next) {
     var result2 = [];
     var native2 = [];
 
-    result1 = ES5.Array.prototype.reduceRight.call(source1, function(prev, curt, index) {
+    result1 = ES.Array.prototype.reduceRight.call(source1, function(prev, curt, index) {
         return prev * curt + index;
     }, 3);
     native1 = Array.prototype.reduceRight.call(source1, function(prev, curt, index) {
         return prev * curt + index;
     }, 3);
-    result2 = ES5.Array.prototype.reduceRight.call(source2, function(prev, curt, index) {
+    result2 = ES.Array.prototype.reduceRight.call(source2, function(prev, curt, index) {
         return prev * curt + index;
     }, 3);
     native2 = Array.prototype.reduceRight.call(source2, function(prev, curt, index) {
@@ -625,26 +627,26 @@ function testArray_reduce_complex(next) {
 
     delete source2[1];
 
-    var result1 = ES5.Array.prototype.reduce.call(source2, function(prev, curt, index) {
+    var result1 = ES.Array.prototype.reduce.call(source2, function(prev, curt, index) {
         return prev * curt + index;
     });
     var native1 = Array.prototype.reduce.call(source2, function(prev, curt, index) {
         return prev * curt + index;
     });
-    var result2 = ES5.Array.prototype.reduce.call(source2, function(prev, curt, index) {
+    var result2 = ES.Array.prototype.reduce.call(source2, function(prev, curt, index) {
         return prev * curt + index;
     }, 0);
     var native2 = Array.prototype.reduce.call(source2, function(prev, curt, index) {
         return prev * curt + index;
     }, 0);
-    var result3 = ES5.Array.prototype.reduce.call(source2, function(prev, curt, index) {
+    var result3 = ES.Array.prototype.reduce.call(source2, function(prev, curt, index) {
         return prev * curt + index;
     }, 0);
     var native3 = Array.prototype.reduce.call(source2, function(prev, curt, index) {
         return prev * curt + index;
     }, 0);
     try {
-        var result4 = ES5.Array.prototype.reduce.call([], function(prev, curt, index) {
+        var result4 = ES.Array.prototype.reduce.call([], function(prev, curt, index) {
             return prev * curt + index;
         });
     } catch(err) { result = "ok"; }
@@ -671,26 +673,26 @@ function testArray_reduceRight_complex(next) {
 
     delete source2[1];
 
-    var result1 = ES5.Array.prototype.reduceRight.call(source2, function(prev, curt, index) {
+    var result1 = ES.Array.prototype.reduceRight.call(source2, function(prev, curt, index) {
         return prev * curt + index;
     });
     var native1 = Array.prototype.reduceRight.call(source2, function(prev, curt, index) {
         return prev * curt + index;
     });
-    var result2 = ES5.Array.prototype.reduceRight.call(source2, function(prev, curt, index) {
+    var result2 = ES.Array.prototype.reduceRight.call(source2, function(prev, curt, index) {
         return prev * curt + index;
     }, 0);
     var native2 = Array.prototype.reduceRight.call(source2, function(prev, curt, index) {
         return prev * curt + index;
     }, 0);
-    var result3 = ES5.Array.prototype.reduceRight.call(source2, function(prev, curt, index) {
+    var result3 = ES.Array.prototype.reduceRight.call(source2, function(prev, curt, index) {
         return prev * curt + index;
     }, 0);
     var native3 = Array.prototype.reduceRight.call(source2, function(prev, curt, index) {
         return prev * curt + index;
     }, 0);
     try {
-        var result4 = ES5.Array.prototype.reduceRight.call([], function(prev, curt, index) {
+        var result4 = ES.Array.prototype.reduceRight.call([], function(prev, curt, index) {
             return prev * curt + index;
         });
     } catch(err) { result = "ok"; }
@@ -711,3 +713,30 @@ function testArray_reduceRight_complex(next) {
         next && next.miss();
     }
 }
+
+function testArray_Iterator(next) {
+    var a = [0,1,2,3].entries();
+
+    var result1 = a.next();
+    var result2 = a.next();
+    var result3 = a.next();
+    var result4 = a.next();
+    var result5 = a.next();
+
+    if ( JSON.stringify(result1) === JSON.stringify({ value: [0, 0], done: false }) &&
+         JSON.stringify(result2) === JSON.stringify({ value: [1, 1], done: false }) &&
+         JSON.stringify(result3) === JSON.stringify({ value: [2, 2], done: false }) &&
+         JSON.stringify(result4) === JSON.stringify({ value: [3, 3], done: false }) &&
+         JSON.stringify(result5) === JSON.stringify({ value: undefined, done: true })) {
+
+        console.log("testArray_Iterator ok");
+        next && next.pass();
+    } else {
+        console.log("testArray_Iterator ng");
+        next && next.miss();
+    }
+}
+
+
+
+

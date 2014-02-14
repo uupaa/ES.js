@@ -1,15 +1,15 @@
 {
-  "name":           "uupaa.es5.js",
+  "name":           "uupaa.es.js",
   "version":        "0.8.0",
   "description":    "",
-  "url":            "https://github.com/uupaa/ES5.js",
-  "keywords":       ["es5", "polyfill", "util", "uupaa"],
+  "url":            "https://github.com/uupaa/ES.js",
+  "keywords":       ["es5", "es6", "shim", "polyfill", "util", "uupaa"],
   "repository": {
     "type":         "git",
-    "url":          "https://github.com/uupaa/ES5.js.git"
+    "url":          "https://github.com/uupaa/ES.js.git"
   },
   "scripts": {
-    "start":        "node node_modules/uupaa.minify.js --keep --output ./lib/ES5.min.js ./lib/ES5.js",
+    "start":        "node node_modules/uupaa.minify.js --keep --output ./lib/ES.min.js ./lib/ES.js",
     "test":         "NODE_ENV=production NODE_PATH=lib node --harmony test/index.node.js; open test/index.html"
   },
   "dependencies": {

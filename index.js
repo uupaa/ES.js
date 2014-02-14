@@ -1,2 +1,2 @@
-module.exports = require("./lib/ES5");
+module.exports = require("./lib/ES");
 
