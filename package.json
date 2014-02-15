@@ -1,6 +1,6 @@
 {
   "name":           "uupaa.es.js",
-  "version":        "0.8.0",
+  "version":        "0.8.1",
   "description":    "",
   "url":            "https://github.com/uupaa/ES.js",
   "keywords":       ["es5", "es6", "shim", "polyfill", "util", "uupaa"],
@@ -13,11 +13,13 @@
     "test":         "NODE_ENV=production NODE_PATH=lib node --harmony test/index.node.js; open test/index.html"
   },
   "dependencies": {
+    "uupaa.extend.js":  ""
   },
   "devDependencies": {
     "uupaa.help.js":    "",
     "uupaa.task.js":    "",
     "uupaa.test.js":    "",
+    "uupaa.extend.js":  "",
     "uupaa.minify.js":  ""
   },
   "lib":            "./lib/",
