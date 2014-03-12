@@ -28,11 +28,11 @@ new Test().add([
         // --- ES6 ---
         testArray_Iterator,
     ]).run().worker(function(err, test) {
-        if (!err) {
-            var undo = Test.swap(ES, ES_);
+        if (!err && typeof ES_ !== "undefined") {
+            var name = Test.swap(ES, ES_);
 
             new Test(test).run(function(err, test) {
-                undo = Test.undo(undo);
+                Test.undo(name);
             });
         }
     });

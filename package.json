@@ -1,6 +1,6 @@
 {
   "name":           "uupaa.es.js",
-  "version":        "0.8.1",
+  "version":        "0.8.2",
   "description":    "",
   "url":            "https://github.com/uupaa/ES.js",
   "keywords":       ["es5", "es6", "shim", "polyfill", "util", "uupaa"],
@@ -9,13 +9,23 @@
     "url":          "https://github.com/uupaa/ES.js.git"
   },
   "scripts": {
-    "start":        "node node_modules/uupaa.minify.js --keep --output ./lib/ES.min.js ./lib/ES.js",
-    "test":         "NODE_ENV=production NODE_PATH=lib node --harmony test/index.node.js; open test/index.html"
+    "watch":        "node node_modules/uupaa.watch.js --verbose --action build ./lib/ES.js",
+    "build":        "node node_modules/uupaa.minify.js --keep --option 'formatting pretty_print' --output ./lib/ES.min.js ./lib/ES.js",
+    "build-release":"node node_modules/uupaa.minify.js --module all --output ./lib/ES.min.js",
+    "test":         "NODE_ENV=production NODE_PATH=lib node --harmony test/index.node.js; open test/index.html",
+    "lint":         "plato --title ES.js --jshint .jshintrc -d lint/plato lib/ES.js; open lint/plato/index.html"
+  },
+  "build": {
+    "all": { "lib/ES.js": "" },
+    "node": { },
+    "worker": { },
+    "browser": { }
   },
   "dependencies": {
     "uupaa.extend.js":  ""
   },
   "devDependencies": {
+    "uupaa.valid.js":    "",
     "uupaa.help.js":    "",
     "uupaa.task.js":    "",
     "uupaa.test.js":    "",
