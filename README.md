@@ -1,7 +1,7 @@
 ES.js
 =========
 
-ECMA-262 Script version 5 polyfill/fallback/shims.
+ECMA-262 Script version 5 polyfill, fallback and shims.
 
 # Document
 
