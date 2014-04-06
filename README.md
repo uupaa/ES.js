@@ -5,7 +5,12 @@ ECMA-262 Script version 5 polyfill, fallback and shims.
 
 # Document
 
-https://github.com/uupaa/ES.js/wiki/ES
+- https://github.com/uupaa/ES.js/wiki/ES
+
+and
+
+- https://github.com/uupaa/WebModule and [slide](http://uupaa.github.io/Slide/slide/WebModule/index.html)
+- https://github.com/uupaa/Help.js and [slide](http://uupaa.github.io/Slide/slide/Help.js/index.html)
 
 # How to use
 
@@ -61,5 +66,4 @@ ES[5].Object.keys({ a: 1, b: 2, c: 3, d: 4 });
 5. Lint
 
     `$ npm run lint`
-
 

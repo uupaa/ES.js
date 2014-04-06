@@ -1,9 +1,9 @@
 {
   "name":           "uupaa.es.js",
-  "version":        "0.8.4",
+  "version":        "0.8.5",
   "description":    "ECMA-262 Script version 5 polyfill, fallback and shims.",
   "url":            "https://github.com/uupaa/ES.js",
-  "keywords":       ["es5", "es6", "shim", "polyfill", "util", "uupaa"],
+  "keywords":       ["es5", "es6", "shim", "polyfill", "util", "uupaa", "WebModule"],
   "repository": {
     "type":         "git",
     "url":          "https://github.com/uupaa/ES.js.git"
@@ -18,12 +18,13 @@
   },
   "x-build": {
     "inputs":       ["lib/ES.js"],
-    "output":       "lib/ES.min.js"
+    "output":       "release/ES.min.js"
   },
   "dependencies": {
     "uupaa.extend.js":  ""
   },
   "devDependencies": {
+    "uupaa.console.js": "",
     "uupaa.valid.js":   "",
     "uupaa.help.js":    "",
     "uupaa.task.js":    "",
