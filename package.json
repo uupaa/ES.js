@@ -1,6 +1,6 @@
 {
   "name":           "uupaa.es.js",
-  "version":        "0.8.5",
+  "version":        "0.8.6",
   "description":    "ECMA-262 Script version 5 polyfill, fallback and shims.",
   "url":            "https://github.com/uupaa/ES.js",
   "keywords":       ["es5", "es6", "shim", "polyfill", "util", "uupaa", "WebModule"],
