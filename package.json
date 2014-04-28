@@ -1,6 +1,6 @@
 {
   "name":           "uupaa.es.js",
-  "version":        "0.8.8",
+  "version":        "0.8.9",
   "description":    "ECMA-262 Script version 5 polyfill, fallback and shims.",
   "url":            "https://github.com/uupaa/ES.js",
   "keywords":       ["es5", "es6", "shim", "polyfill", "util", "uupaa", "WebModule"],
@@ -14,18 +14,26 @@
     "build-simple": "node node_modules/uupaa.minify.js --verbose --strict --keep --pretty --nowrap --simple",
     "build-release":"node node_modules/uupaa.minify.js --verbose --strict --module",
     "test":         "npm run test-node; npm run test-browser",
+    "test-page":    "node node_modules/uupaa.test.js/bin/TestPage.js --verbose",
+    "test-debug":   "NODE_ENV=production NODE_PATH=lib node --debug-brk --harmony test/index.node.js",
     "test-node":    "NODE_ENV=production NODE_PATH=lib node --harmony test/index.node.js",
     "test-browser": "open test/index.html",
     "lint":         "node node_modules/uupaa.plato.js; open lint/plato/index.html"
   },
   "x-build": {
-    "inputs":       ["lib/ES.js"],
-    "output":       "release/ES.min.js"
+    "files":        ["lib/ES.js"],
+    "output":       "release/ES.min.js",
+    "target":       ["all"],
+    "module": {
+      "develop":    [],
+      "release":    ["uupaa.extend.js"]
+    }
   },
   "dependencies": {
     "uupaa.extend.js":  ""
   },
   "devDependencies": {
+    "uupaa.nodemodule.js": "",
     "uupaa.console.js": "",
     "uupaa.valid.js":   "",
     "uupaa.help.js":    "",
