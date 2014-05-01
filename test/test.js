@@ -1,4 +1,15 @@
-new Test().add([
+var ModuleTest = (function(global) {
+
+return new Test({
+        disable:    false,
+        node:       true,
+        browser:    true,
+        worker:     true,
+        button:     true,
+        both:       true,
+        primary:    global["ES"],
+        secondary:  global["ES_"],
+    }).add([
         testSetup,
         testObject_keys,
         testArray_isArray,
@@ -27,19 +38,7 @@ new Test().add([
         testArray_reduceRight_complex,
         // --- ES6 ---
         testArray_Iterator,
-    ]).run(function(err, test) {
-        if (1) {
-            err || test.worker(function(err, test) {
-                if (!err && typeof ES_ !== "undefined") {
-                    var name = Test.swap(ES, ES_);
-
-                    new Test(test).run(function(err, test) {
-                        Test.undo(name);
-                    });
-                }
-            });
-        }
-    });
+    ]).run().clone();
 
 function testSetup(next) {
     ES(6.0);
@@ -741,6 +740,5 @@ function testArray_Iterator(next) {
     }
 }
 
-
-
+})((this || 0).self || global);
 
