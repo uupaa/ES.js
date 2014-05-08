@@ -1,14 +1,16 @@
-var ModuleTest = (function(global) {
+var ModuleTestES = (function(global) {
 
-return new Test({
+var _inNode    = "process"        in global;
+var _inWorker  = "WorkerLocation" in global;
+var _inBrowser = "document"       in global;
+
+var test = new Test("ES", {
         disable:    false,
-        node:       true,
         browser:    true,
         worker:     true,
+        node:       true,
         button:     true,
         both:       true,
-        primary:    global["ES"],
-        secondary:  global["ES_"],
     }).add([
         testSetup,
         testObject_keys,
@@ -36,14 +38,20 @@ return new Test({
         // --- reduce complex ---
         testArray_reduce_complex,
         testArray_reduceRight_complex,
-        // --- ES6 ---
-        testArray_Iterator,
-    ]).run().clone();
+    ]);
+
+    if (Array.prototype.entries) {
+        test.add([
+            // --- ES6 ---
+            testArray_Iterator,
+        ]);
+    }
+    test.run().clone();
+
 
 function testSetup(next) {
     ES(6.0);
 
-    console.log("testSetup ok");
     next && next.pass();
 }
 
@@ -57,10 +65,8 @@ function testObject_keys(next) {
 
     if ( JSON.stringify(result1) === JSON.stringify(native1) &&
          JSON.stringify(result2) === JSON.stringify(native2) ) {
-        console.log("testObjectKeys ok");
         next && next.pass();
     } else {
-        console.log("testObjectKeys ng");
         next && next.miss();
     }
 }
@@ -75,10 +81,8 @@ function testArray_isArray(next) {
 
     if ( JSON.stringify(result1) === JSON.stringify(native1) &&
          JSON.stringify(result2) === JSON.stringify(native2) ) {
-        console.log("testArray_isArray ok");
         next && next.pass();
     } else {
-        console.log("testArray_isArray ng");
         next && next.miss();
     }
 }
@@ -93,10 +97,8 @@ function testArray_indexOf(next) {
 
     if ( JSON.stringify(result1) === JSON.stringify(native1) &&
          JSON.stringify(result2) === JSON.stringify(native2) ) {
-        console.log("testArray_indexOf ok");
         next && next.pass();
     } else {
-        console.log("testArray_indexOf ng");
         next && next.miss();
     }
 }
@@ -111,10 +113,8 @@ function testArray_lastIndexOf(next) {
 
     if ( JSON.stringify(result1) === JSON.stringify(native1) &&
          JSON.stringify(result2) === JSON.stringify(native2) ) {
-        console.log("testArray_lastIndexOf ok");
         next && next.pass();
     } else {
-        console.log("testArray_lastIndexOf ng");
         next && next.miss();
     }
 }
@@ -142,10 +142,8 @@ function testArray_forEach(next) {
 
     if ( JSON.stringify(result1) === JSON.stringify(native1) &&
          JSON.stringify(result2) === JSON.stringify(native2) ) {
-        console.log("testArray_forEach ok");
         next && next.pass();
     } else {
-        console.log("testArray_forEach ng");
         next && next.miss();
     }
 }
@@ -173,10 +171,8 @@ function testArray_map(next) {
 
     if ( JSON.stringify(result1) === JSON.stringify(native1) &&
          JSON.stringify(result2) === JSON.stringify(native2) ) {
-        console.log("testArray_map ok");
         next && next.pass();
     } else {
-        console.log("testArray_map ng");
         next && next.miss();
     }
 }
@@ -204,10 +200,8 @@ function testArray_some(next) {
 
     if ( JSON.stringify(result1) === JSON.stringify(native1) &&
          JSON.stringify(result2) === JSON.stringify(native2) ) {
-        console.log("testArray_some ok");
         next && next.pass();
     } else {
-        console.log("testArray_some ng");
         next && next.miss();
     }
 }
@@ -235,10 +229,8 @@ function testArray_every(next) {
 
     if ( JSON.stringify(result1) === JSON.stringify(native1) &&
          JSON.stringify(result2) === JSON.stringify(native2) ) {
-        console.log("testArray_every ok");
         next && next.pass();
     } else {
-        console.log("testArray_every ng");
         next && next.miss();
     }
 }
@@ -266,10 +258,8 @@ function testArray_filter(next) {
 
     if ( JSON.stringify(result1) === JSON.stringify(native1) &&
          JSON.stringify(result2) === JSON.stringify(native2) ) {
-        console.log("testArray_filter ok");
         next && next.pass();
     } else {
-        console.log("testArray_filter ng");
         next && next.miss();
     }
 }
@@ -297,10 +287,8 @@ function testArray_reduce(next) {
 
     if ( JSON.stringify(result1) === JSON.stringify(native1) &&
          JSON.stringify(result2) === JSON.stringify(native2) ) {
-        console.log("testArray_reduce ok");
         next && next.pass();
     } else {
-        console.log("testArray_reduce ng");
         next && next.miss();
     }
 }
@@ -328,10 +316,8 @@ function testArray_reduceRight(next) {
 
     if ( JSON.stringify(result1) === JSON.stringify(native1) &&
          JSON.stringify(result2) === JSON.stringify(native2) ) {
-        console.log("testArray_reduceRight ok");
         next && next.pass();
     } else {
-        console.log("testArray_reduceRight ng");
         next && next.miss();
     }
 }
@@ -350,10 +336,8 @@ function testArray_sparse_indexOf(next) {
 
     if ( JSON.stringify(result1) === JSON.stringify(native1) &&
          JSON.stringify(result2) === JSON.stringify(native2) ) {
-        console.log("testArray_sparse_indexOf ok");
         next && next.pass();
     } else {
-        console.log("testArray_sparse_indexOf ng");
         next && next.miss();
     }
 }
@@ -372,10 +356,8 @@ function testArray_sparse_lastIndexOf(next) {
 
     if ( JSON.stringify(result1) === JSON.stringify(native1) &&
          JSON.stringify(result2) === JSON.stringify(native2) ) {
-        console.log("testArray_sparse_lastIndexOf ok");
         next && next.pass();
     } else {
-        console.log("testArray_sparse_lastIndexOf ng");
         next && next.miss();
     }
 }
@@ -407,10 +389,8 @@ function testArray_sparse_forEach(next) {
 
     if ( JSON.stringify(result1) === JSON.stringify(native1) &&
          JSON.stringify(result2) === JSON.stringify(native2) ) {
-        console.log("testArray_sparse_forEach ok");
         next && next.pass();
     } else {
-        console.log("testArray_sparse_forEach ng");
         next && next.miss();
     }
 }
@@ -442,10 +422,8 @@ function testArray_sparse_map(next) {
 
     if ( JSON.stringify(result1) === JSON.stringify(native1) &&
          JSON.stringify(result2) === JSON.stringify(native2) ) {
-        console.log("testArray_sparse_map ok");
         next && next.pass();
     } else {
-        console.log("testArray_sparse_map ng");
         next && next.miss();
     }
 }
@@ -477,10 +455,8 @@ function testArray_sparse_some(next) {
 
     if ( JSON.stringify(result1) === JSON.stringify(native1) &&
          JSON.stringify(result2) === JSON.stringify(native2) ) {
-        console.log("testArray_sparse_some ok");
         next && next.pass();
     } else {
-        console.log("testArray_sparse_some ng");
         next && next.miss();
     }
 }
@@ -512,10 +488,8 @@ function testArray_sparse_every(next) {
 
     if ( JSON.stringify(result1) === JSON.stringify(native1) &&
          JSON.stringify(result2) === JSON.stringify(native2) ) {
-        console.log("testArray_sparse_every ok");
         next && next.pass();
     } else {
-        console.log("testArray_sparse_every ng");
         next && next.miss();
     }
 }
@@ -547,10 +521,8 @@ function testArray_sparse_filter(next) {
 
     if ( JSON.stringify(result1) === JSON.stringify(native1) &&
          JSON.stringify(result2) === JSON.stringify(native2) ) {
-        console.log("testArray_sparse_filter ok");
         next && next.pass();
     } else {
-        console.log("testArray_sparse_filter ng");
         next && next.miss();
     }
 }
@@ -582,10 +554,8 @@ function testArray_sparse_reduce(next) {
 
     if ( JSON.stringify(result1) === JSON.stringify(native1) &&
          JSON.stringify(result2) === JSON.stringify(native2) ) {
-        console.log("testArray_sparse_reduce ok");
         next && next.pass();
     } else {
-        console.log("testArray_sparse_reduce ng");
         next && next.miss();
     }
 }
@@ -617,10 +587,8 @@ function testArray_sparse_reduceRight(next) {
 
     if ( JSON.stringify(result1) === JSON.stringify(native1) &&
          JSON.stringify(result2) === JSON.stringify(native2) ) {
-        console.log("testArray_sparse_reduceRight ok");
         next && next.pass();
     } else {
-        console.log("testArray_sparse_reduceRight ng");
         next && next.miss();
     }
 }
@@ -663,10 +631,8 @@ function testArray_reduce_complex(next) {
          JSON.stringify(result2) === JSON.stringify(native2) &&
          JSON.stringify(result3) === JSON.stringify(native3) &&
          JSON.stringify(result4) === JSON.stringify(native4) ) {
-        console.log("testArray_reduce_complex ok");
         next && next.pass();
     } else {
-        console.log("testArray_reduce_complex ng");
         next && next.miss();
     }
 }
@@ -709,10 +675,8 @@ function testArray_reduceRight_complex(next) {
          JSON.stringify(result2) === JSON.stringify(native2) &&
          JSON.stringify(result3) === JSON.stringify(native3) &&
          JSON.stringify(result4) === JSON.stringify(native4) ) {
-        console.log("testArray_reduceRight_complex ok");
         next && next.pass();
     } else {
-        console.log("testArray_reduceRight_complex ng");
         next && next.miss();
     }
 }
@@ -732,10 +696,8 @@ function testArray_Iterator(next) {
          JSON.stringify(result4) === JSON.stringify({ value: [3, 3], done: false }) &&
          JSON.stringify(result5) === JSON.stringify({ value: undefined, done: true })) {
 
-        console.log("testArray_Iterator ok");
         next && next.pass();
     } else {
-        console.log("testArray_Iterator ng");
         next && next.miss();
     }
 }
