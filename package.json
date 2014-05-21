@@ -1,6 +1,6 @@
 {
   "name":           "uupaa.es.js",
-  "version":        "0.8.11",
+  "version":        "0.9.0",
   "description":    "ECMA-262 Script version 5 polyfill, fallback and shims.",
   "url":            "https://github.com/uupaa/ES.js",
   "keywords":       ["es5", "es6", "shim", "polyfill", "util", "uupaa", "WebModule"],
@@ -21,11 +21,23 @@
     "lint":         "node node_modules/uupaa.plato.js; open lint/plato/index.html"
   },
   "x-build": {
-    "files":        ["lib/ES.js"],
+    "files":        ["lib/ES.js",
+                     "lib/ES5_Array.js",
+                     "lib/ES5_Date.js",
+                     "lib/ES5_Function.js",
+                     "lib/ES5_JSON.js",
+                     "lib/ES5_Object.js",
+                     "lib/ES5_String.js",
+                     "lib/ES6_Array.js",
+                     "lib/ES6_Number.js",
+                     "lib/ES6_Object.js",
+                     "lib/ES6_String.js"
+                    ],
     "output":       "release/ES.min.js",
     "target":       ["all"],
+    "labels":       ["@dev", "@ie", "@ES5", "@ES6"],
     "module": {
-      "develop":    [],
+      "develop":    ["uupaa.valid.js"],
       "release":    ["uupaa.extend.js"]
     }
   },
@@ -34,6 +46,7 @@
   },
   "devDependencies": {
     "uupaa.nodemodule.js": "",
+    "uupaa.reflection.js": "",
     "uupaa.console.js": "",
     "uupaa.valid.js":   "",
     "uupaa.help.js":    "",

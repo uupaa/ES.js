@@ -50,7 +50,7 @@ var test = new Test("ES", {
 
 
 function testSetup(next) {
-    ES(6.0);
+    //ES(6.0);
 
     next && next.pass();
 }
