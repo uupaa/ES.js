@@ -38,6 +38,8 @@ var test = new Test("ES", {
         // --- reduce complex ---
         testArray_reduce_complex,
         testArray_reduceRight_complex,
+        // --- WeakMap ---
+        testWeakMap_basic,
     ]);
 
     if (Array.prototype.entries) {
@@ -696,6 +698,65 @@ function testArray_Iterator(next) {
          JSON.stringify(result4) === JSON.stringify({ value: [3, 3], done: false }) &&
          JSON.stringify(result5) === JSON.stringify({ value: undefined, done: true })) {
 
+        next && next.pass();
+    } else {
+        next && next.miss();
+    }
+}
+
+function testWeakMap_basic(next) {
+    // test code from
+    //      https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/WeakMap
+    var weakmap1 = new WeakMap();
+    var weakmap2 = new WeakMap();
+    var weakmap3 = new WeakMap();
+
+    var keyObject1 = {};
+    var keyObject2 = function(){};
+    var keyObject3 = global;
+
+                  weakmap1.set(keyObject1, 37);
+                  weakmap1.set(keyObject2, "azerty");
+
+                  weakmap2.set(keyObject1, keyObject2); // 値は（オブジェクトまたは関数を含む）何であってもかまいません
+                  weakmap2.set(keyObject3, undefined);
+                  weakmap2.set(weakmap1,   weakmap2); // キーも値もどんなオブジェクトでもかまいません。WeakMap であってもよいのです！
+
+    var result1 = weakmap1.get(keyObject2); // -> "azerty"
+    var result2 = weakmap2.get(keyObject2); // -> undefined - weakmap2 には keyObject2 に関連付けられた値が無い為、undefined が返ってきます
+    var result3 = weakmap2.get(keyObject3); // -> undefined - 値が undefined と関連付けられている為、undefined が返ってきます
+
+    var result4 = weakmap1.has(keyObject2); // -> true
+    var result5 = weakmap2.has(keyObject2); // -> false
+    var result6 = weakmap2.has(keyObject3); // -> true (値が関連付けられているならば、たとえ値が 'undefined' であっても true となります)
+
+                  weakmap3.set(keyObject1, 37);
+    var result7 = weakmap3.get(keyObject1); // -> 37
+
+    var result8 = undefined;
+
+    try {
+                      weakmap3.clear();
+        var result8 = weakmap3.get(keyObject1); // -> undefined - weakmap3 は clear されたため keyObject1 に関連する値は持っていません
+    } catch(o_o) {
+        // node v0.10.26 WeakMap#clear not impl.
+        //throw o_o;
+    }
+
+    var result9 = weakmap1.has(keyObject1); // -> true
+                  weakmap1.delete(keyObject1);
+    var resultA = weakmap1.has(keyObject1); // -> false
+
+    if (result1 === "azerty" &&
+        result2 === undefined &&
+        result3 === undefined &&
+        result4 === true &&
+        result5 === false &&
+        result6 === true &&
+        result7 === 37 &&
+        result8 === undefined &&
+        result9 === true &&
+        resultA === false) {
         next && next.pass();
     } else {
         next && next.miss();

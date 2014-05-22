@@ -17,5 +17,6 @@ require("../lib/ES6_Array.js");
 require("../lib/ES6_Number.js");
 require("../lib/ES6_Object.js");
 require("../lib/ES6_String.js");
+require("../lib/ES6_WeakMap.js");
 require("../release/ES.min.js");
 require("./test.js");
