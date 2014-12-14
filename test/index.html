@@ -15,10 +15,11 @@ onmessage = function(event) {
     self.MESSAGE = event.data;
 
     importScripts(MESSAGE.BASE_DIR + "../node_modules/uupaa.extend.js/lib/Extend.js");
+    importScripts(MESSAGE.BASE_DIR + "../../WebModule/lib/Reflection.js");
     importScripts(MESSAGE.BASE_DIR + "../../WebModule/lib/Console.js");
-    importScripts(MESSAGE.BASE_DIR + "../../WebModule/lib/Help.js");
     importScripts(MESSAGE.BASE_DIR + "../../WebModule/lib/Valid.js");
-    importScripts(MESSAGE.BASE_DIR + "../../WebModule/lib/TestTask.js");
+    importScripts(MESSAGE.BASE_DIR + "../../WebModule/lib/Help.js");
+    importScripts(MESSAGE.BASE_DIR + "../../WebModule/lib/Task.js");
     importScripts(MESSAGE.BASE_DIR + "../../WebModule/lib/Test.js");
     importScripts(MESSAGE.BASE_DIR + "../lib/ES.js");
     importScripts(MESSAGE.BASE_DIR + "../lib/ES5_Array.js");
@@ -40,10 +41,11 @@ onmessage = function(event) {
 </script>
 
 <script src="../node_modules/uupaa.extend.js/lib/Extend.js"></script>
+<script src="../../WebModule/lib/Reflection.js"></script>
 <script src="../../WebModule/lib/Console.js"></script>
-<script src="../../WebModule/lib/Help.js"></script>
 <script src="../../WebModule/lib/Valid.js"></script>
-<script src="../../WebModule/lib/TestTask.js"></script>
+<script src="../../WebModule/lib/Help.js"></script>
+<script src="../../WebModule/lib/Task.js"></script>
 <script src="../../WebModule/lib/Test.js"></script>
 <script src="../lib/ES.js"></script>
 <script src="../lib/ES5_Array.js"></script>

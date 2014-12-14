@@ -1,8 +1,9 @@
 require("../node_modules/uupaa.extend.js/lib/Extend.js");
+require("../../WebModule/lib/Reflection.js");
 require("../../WebModule/lib/Console.js");
-require("../../WebModule/lib/Help.js");
 require("../../WebModule/lib/Valid.js");
-require("../../WebModule/lib/TestTask.js");
+require("../../WebModule/lib/Help.js");
+require("../../WebModule/lib/Task.js");
 require("../../WebModule/lib/Test.js");
 require("../lib/ES.js");
 require("../lib/ES5_Array.js");
