@@ -100,6 +100,15 @@ if (ES6_test) {
         testNumber_isSafeInteger,
         // --- Math ---
         testMath,
+        // --- Set ---
+        testSet_size,
+        testSet_add,
+        testSet_has,
+        testSet_values,
+        testSet_entries,
+        testSet_forEach,
+        testSet_delete,
+        testSet_clear,
         // --- Map ---
         testMap_size,
         testMap_get,
@@ -1652,27 +1661,47 @@ function testMath(test, pass, miss) {
     test.done(miss());
 }
 
-function testMap_size(test, pass, miss) {
-    var map = new Map();
+// --- Set ------------------------------------------------
+function testSet_size(test, pass, miss) {
+    var set1 = new Set();
+    var set2 = new ES[6].Set();
 
-    map.set("a", "alpha");
-    map.set("b", "beta");
-    map.set("g", "gamma");
+    set1.add(1);
+    set1.add(5);
+    set1.add("some text")
 
-    if (map.size === 3) {
+    set2.add(1);
+    set2.add(5);
+    set2.add("some text")
+
+    if (set1.size === 3 &&
+        set2.size === 3) {
         test.done(pass());
     } else {
         test.done(miss());
     }
 }
 
-function testMap_get(test, pass, miss) {
-    var map = new Map();
+function testSet_add(test, pass, miss) {
+    var set1 = new Set();
+    var set2 = new ES[6].Set();
 
-    map.set("bar", "foo");
+    set1.add(1);
+    set1.add(5).add("some text"); // chainable
+    set2.add(1);
+    set2.add(5).add("some text"); // chainable
 
-    if (map.get("bar") === "foo") {
-        if (map.get("baz") === undefined) {
+    var iter1 = set1.values();
+    var iter2 = set2.values();
+
+    if (iter1.next().value === 1 &&
+        iter1.next().value === 5 &&
+        iter1.next().value === "some text") {
+
+        if (iter2.next().value === 1 &&
+            iter2.next().value === 5 &&
+            iter2.next().value === "some text") {
+
             test.done(pass());
             return;
         }
@@ -1680,28 +1709,19 @@ function testMap_get(test, pass, miss) {
     test.done(miss());
 }
 
-function testMap_set(test, pass, miss) {
-    var map = new Map();
+function testSet_has(test, pass, miss) {
+    var set1 = new Set();
+    var set2 = new ES[6].Set();
 
-    map.set("bar", "foo");
-    map.set(1, "foobar");
+    set1.add("foo");
+    set2.add("foo");
 
-    map.set("bar", "fuuu");
+    if (set1.has("foo") === true &&
+        set1.has("bar") === false) {
 
-    if (map.get("bar") === "fuuu") {
-        test.done(pass());
-    } else {
-        test.done(miss());
-    }
-}
+        if (set2.has("foo") === true &&
+            set2.has("bar") === false) {
 
-function testMap_has(test, pass, miss) {
-    var map = new Map();
-
-    map.set("bar", "foo");
-
-    if (map.has("bar") === true) {
-        if (map.has("baz") === false) {
             test.done(pass());
             return;
         }
@@ -1709,82 +1729,102 @@ function testMap_has(test, pass, miss) {
     test.done(miss());
 }
 
-function testMap_keys(test, pass, miss) {
-    var map = new Map();
+function testSet_values(test, pass, miss) {
+    var set1 = new Set();
+    var set2 = new ES[6].Set();
 
-    map.set("0", "foo");
-    map.set(1, "bar");
-    map.set({}, "baz");
+    set1.add("foo");
+    set1.add("bar");
+    set1.add("baz");
 
-    var iter = map.keys();
+    set2.add("foo");
+    set2.add("bar");
+    set2.add("baz");
 
-    if (iter.next().value === "0" &&
-        iter.next().value === 1 &&
-        iter.next().value.toString() === "[object Object]") {
-        test.done(pass());
-    } else {
-        test.done(miss());
+    var iter1 = set1.values();
+    var iter2 = set2.values();
+
+    if (iter1.next().value === "foo" &&
+        iter1.next().value === "bar" &&
+        iter1.next().value === "baz") {
+
+        if (iter2.next().value === "foo" &&
+            iter2.next().value === "bar" &&
+            iter2.next().value === "baz") {
+
+            test.done(pass());
+            return;
+        }
     }
+    test.done(miss());
 }
 
-function testMap_values(test, pass, miss) {
-    var map = new Map();
+function testSet_entries(test, pass, miss) {
+    var set1 = new Set();
+    var set2 = new Set();
 
-    map.set("0", "foo");
-    map.set(1, "bar");
-    map.set({}, "baz");
+    set1.add("foobar");
+    set1.add(1);
+    set1.add("baz");
 
-    var iter = map.values();
+    set2.add("foobar");
+    set2.add(1);
+    set2.add("baz");
 
-    if (iter.next().value === "foo" &&
-        iter.next().value === "bar" &&
-        iter.next().value === "baz") {
-        test.done(pass());
-    } else {
-        test.done(miss());
+    var iter1 = set1.entries();
+    var iter2 = set2.entries();
+
+    if (iter1.next().value.join() === ["foobar", "foobar"].join() &&
+        iter1.next().value.join() === [1, 1].join() &&
+        iter1.next().value.join() === ["baz", "baz"].join()) {
+
+        if (iter2.next().value.join() === ["foobar", "foobar"].join() &&
+            iter2.next().value.join() === [1, 1].join() &&
+            iter2.next().value.join() === ["baz", "baz"].join()) {
+
+            test.done(pass());
+            return;
+        }
     }
+    test.done(miss());
 }
 
-function testMap_entries(test, pass, miss) {
-    var map = new Map();
+function testSet_forEach(test, pass, miss) {
+    var result1 = [];
+    var result2 = [];
+    var set1 = new Set(["foo", "bar", undefined]);
+    var set2 = new ES[6].Set(["foo", "bar", undefined]);
 
-    map.set("0", "foo");
-    map.set(1, "bar");
-    map.set({}, "baz");
-
-    var iter = map.entries();
-
-    if (iter.next().value.join() === ["0", "foo"].join() &&
-        iter.next().value.join() === [1, "bar"].join() &&
-        iter.next().value.join() === ["[object Object]", "baz"].join()) {
-        test.done(pass());
-    } else {
-        test.done(miss());
-    }
-}
-
-function testMap_forEach(test, pass, miss) {
-    var result = [];
-    var map = new Map([["foo", 3], ["bar", {}], ["baz", undefined]]);
-
-    map.forEach(function(value, key, map) {
-        result.push(String(key), String(value));
+    set1.forEach(function(value, key, set) {
+        result1.push(String(key), String(value));
+    });
+    set2.forEach(function(value, key, set) {
+        result2.push(String(key), String(value));
     });
 
-    if (result.join() === "foo,3,bar,[object Object],baz,undefined") {
+    if (result1.join() === "foo,foo,bar,bar,undefined,undefined" &&
+        result2.join() === "foo,foo,bar,bar,undefined,undefined") {
         test.done(pass());
     } else {
         test.done(miss());
     }
 }
 
-function testMap_delete(test, pass, miss) {
-    var map = new Map();
+function testSet_delete(test, pass, miss) {
+    var set1 = new Set();
+    var set2 = new ES[6].Set();
 
-    map.set("bar", "foo");
+    set1.add("foo");
+    set2.add("foo");
 
-    if (map.delete("bar") === true) {
-        if (map.has("bar") === false) {
+    if (set1.delete("bar") === false &&
+        set1.delete("foo") === true &&
+        set1.has("foo") === false) {
+
+        if (set2.delete("bar") === false &&
+            set2.delete("foo") === true &&
+            set2.has("foo") === false) {
+
             test.done(pass());
             return;
         }
@@ -1792,17 +1832,28 @@ function testMap_delete(test, pass, miss) {
     test.done(miss());
 }
 
-function testMap_clear(test, pass, miss) {
-    var map = new Map();
+function testSet_clear(test, pass, miss) {
+    var set1 = new Set();
+    var set2 = new ES[6].Set();
 
-    map.set("bar", "baz");
-    map.set(1, "foo");
-    if (map.size === 2) {
-        if (map.has("bar") === true) {
-            map.clear();
+    set1.add(1);
+    set1.add("foo");
 
-            if (map.size === 0) {
-                if (map.has("bar") === false) {
+    set2.add(1);
+    set2.add("foo");
+
+    if (set1.size === 2 &&
+        set1.has("foo") === true) {
+        set1.clear();
+        if (set1.size === 0 &&
+            set1.has("bar") === false) {
+
+            if (set2.size === 2 &&
+                set2.has("foo") === true) {
+                set2.clear();
+                if (set2.size === 0 &&
+                    set2.has("bar") === false) {
+
                     test.done(pass());
                     return;
                 }
@@ -1812,50 +1863,304 @@ function testMap_clear(test, pass, miss) {
     test.done(miss());
 }
 
+// --- Map ------------------------------------------------
+function testMap_size(test, pass, miss) {
+    var map1 = new Map();
+    var map2 = new ES[6].Map();
+
+    map1.set("a", "alpha");
+    map1.set("b", "beta");
+    map1.set("g", "gamma");
+
+    map2.set("a", "alpha");
+    map2.set("b", "beta");
+    map2.set("g", "gamma");
+
+    if (map1.size === 3 &&
+        map2.size === 3) {
+        test.done(pass());
+    } else {
+        test.done(miss());
+    }
+}
+
+function testMap_get(test, pass, miss) {
+    var map1 = new Map();
+    var map2 = new ES[6].Map();
+
+    map1.set("bar", "foo");
+    map2.set("bar", "foo");
+
+    if (map1.get("bar") === "foo" &&
+        map2.get("bar") === "foo") {
+        if (map1.get("baz") === undefined &&
+            map2.get("baz") === undefined) {
+
+            test.done(pass());
+            return;
+        }
+    }
+    test.done(miss());
+}
+
+function testMap_set(test, pass, miss) {
+    var map1 = new Map();
+    var map2 = new ES[6].Map();
+
+    map1.set("bar", "foo");
+    map1.set(1, "foobar");
+    map2.set("bar", "foo");
+    map2.set(1, "foobar");
+
+    map1.set("bar", "fuuu");
+    map2.set("bar", "fuuu");
+
+    if (map1.get("bar") === "fuuu" &&
+        map2.get("bar") === "fuuu") {
+        test.done(pass());
+    } else {
+        test.done(miss());
+    }
+}
+
+function testMap_has(test, pass, miss) {
+    var map1 = new Map();
+    var map2 = new ES[6].Map();
+
+    map1.set("bar", "foo");
+    map2.set("bar", "foo");
+
+    if (map1.has("bar") === true &&
+        map2.has("bar") === true) {
+        if (map1.has("baz") === false &&
+            map2.has("baz") === false) {
+            test.done(pass());
+            return;
+        }
+    }
+    test.done(miss());
+}
+
+function testMap_keys(test, pass, miss) {
+    var map1 = new Map();
+    var map2 = new ES[6].Map();
+
+    map1.set("0", "foo");
+    map1.set(1, "bar");
+    map1.set({}, "baz");
+
+    map2.set("0", "foo");
+    map2.set(1, "bar");
+    map2.set({}, "baz");
+
+    var iter1 = map1.keys();
+    var iter2 = map2.keys();
+
+    if (iter1.next().value === "0" &&
+        iter1.next().value === 1 &&
+        iter1.next().value.toString() === "[object Object]") {
+
+        if (iter2.next().value === "0" &&
+            iter2.next().value === 1 &&
+            iter2.next().value.toString() === "[object Object]") {
+
+            test.done(pass());
+            return;
+        }
+    }
+    test.done(miss());
+}
+
+function testMap_values(test, pass, miss) {
+    var map1 = new Map();
+    var map2 = new ES[6].Map();
+
+    map1.set("0", "foo");
+    map1.set(1, "bar");
+    map1.set({}, "baz");
+
+    map2.set("0", "foo");
+    map2.set(1, "bar");
+    map2.set({}, "baz");
+
+    var iter1 = map1.values();
+    var iter2 = map2.values();
+
+    if (iter1.next().value === "foo" &&
+        iter1.next().value === "bar" &&
+        iter1.next().value === "baz" &&
+
+        iter2.next().value === "foo" &&
+        iter2.next().value === "bar" &&
+        iter2.next().value === "baz") {
+
+        test.done(pass());
+    } else {
+        test.done(miss());
+    }
+}
+
+function testMap_entries(test, pass, miss) {
+    var map1 = new Map();
+    var map2 = new ES[6].Map();
+
+    map1.set("0", "foo");
+    map1.set(1, "bar");
+    map1.set({}, "baz");
+
+    map2.set("0", "foo");
+    map2.set(1, "bar");
+    map2.set({}, "baz");
+
+    var iter1 = map1.entries();
+    var iter2 = map2.entries();
+
+    if (iter1.next().value.join() === ["0", "foo"].join() &&
+        iter1.next().value.join() === [1, "bar"].join() &&
+        iter1.next().value.join() === ["[object Object]", "baz"].join() &&
+
+        iter2.next().value.join() === ["0", "foo"].join() &&
+        iter2.next().value.join() === [1, "bar"].join() &&
+        iter2.next().value.join() === ["[object Object]", "baz"].join()) {
+
+        test.done(pass());
+    } else {
+        test.done(miss());
+    }
+}
+
+function testMap_forEach(test, pass, miss) {
+    var result1 = [];
+    var result2 = [];
+    var map1 = new Map([["foo", 3], ["bar", {}], ["baz", undefined]]);
+    var map2 = new ES[6].Map([["foo", 3], ["bar", {}], ["baz", undefined]]);
+
+    map1.forEach(function(value, key, map) {
+        result1.push(String(key), String(value));
+    });
+    map2.forEach(function(value, key, map) {
+        result2.push(String(key), String(value));
+    });
+
+    if (result1.join() === "foo,3,bar,[object Object],baz,undefined" &&
+        result2.join() === "foo,3,bar,[object Object],baz,undefined") {
+        test.done(pass());
+    } else {
+        test.done(miss());
+    }
+}
+
+function testMap_delete(test, pass, miss) {
+    var map1 = new Map();
+    var map2 = new ES[6].Map();
+
+    map1.set("bar", "foo");
+    map2.set("bar", "foo");
+
+    if (map1.delete("bar") === true) {
+        if (map1.has("bar") === false) {
+            if (map1.delete("bar") === false) {
+
+                if (map2.delete("bar") === true) {
+                    if (map2.has("bar") === false) {
+                        if (map2.delete("bar") === false) {
+
+                            test.done(pass());
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    test.done(miss());
+}
+
+function testMap_clear(test, pass, miss) {
+    var map1 = new Map();
+    var map2 = new ES[6].Map();
+
+    map1.set("bar", "baz");
+    map1.set(1, "foo");
+
+    map2.set("bar", "baz");
+    map2.set(1, "foo");
+
+    if (map1.size === 2) {
+        if (map1.has("bar") === true) {
+            map1.clear();
+            if (map1.size === 0) {
+                if (map1.has("bar") === false) {
+
+                    if (map2.size === 2) {
+                        if (map2.has("bar") === true) {
+                            map2.clear();
+                            if (map2.size === 0) {
+                                if (map2.has("bar") === false) {
+
+                                    test.done(pass());
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    test.done(miss());
+}
+
 function testWeakMap(test, pass, miss) {
-    // test code from
-    //      https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/WeakMap
-    var weakmap1 = new WeakMap();
-    var weakmap2 = new WeakMap();
-    var weakmap3 = new WeakMap();
+    var map1 = new WeakMap();
+    var map2 = new WeakMap();
+    var map3 = new WeakMap();
+
+    var mapA = new ES[6].WeakMap();
+    var mapB = new ES[6].WeakMap();
+    var mapC = new ES[6].WeakMap();
 
     var keyObject1 = {};
     var keyObject2 = function(){};
     var keyObject3 = global;
 
-    weakmap1.set(keyObject1, 37);
-    weakmap1.set(keyObject2, "azerty");
+    map1.set(keyObject1, 37);
+    map1.set(keyObject2, "azerty");
+    map2.set(keyObject1, keyObject2);
+    map2.set(keyObject3, undefined);
+    map2.set(map1, map2);
 
-    weakmap2.set(keyObject1, keyObject2);
-    weakmap2.set(keyObject3, undefined);
-    weakmap2.set(weakmap1,   weakmap2);
+    mapA.set(keyObject1, 37);
+    mapA.set(keyObject2, "azerty");
+    mapB.set(keyObject1, keyObject2);
+    mapB.set(keyObject3, undefined);
+    mapB.set(mapA, mapB);
 
-    var result1 = weakmap1.get(keyObject2); // -> "azerty"
-    var result2 = weakmap2.get(keyObject2); // -> undefined - weakmap2 には keyObject2 に関連付けられた値が無い為、undefined が返ってきます
-    var result3 = weakmap2.get(keyObject3); // -> undefined - 値が undefined と関連付けられている為、undefined が返ってきます
-
-    var result4 = weakmap1.has(keyObject2); // -> true
-    var result5 = weakmap2.has(keyObject2); // -> false
-    var result6 = weakmap2.has(keyObject3); // -> true (値が関連付けられているならば、たとえ値が 'undefined' であっても true となります)
-
-                  weakmap3.set(keyObject1, 37);
-    var result7 = weakmap3.get(keyObject1); // -> 37
-
+    var result1 = map1.get(keyObject2); // -> "azerty"
+    var result2 = map2.get(keyObject2); // -> undefined - map2 には keyObject2 に関連付けられた値が無い為、undefined が返ってきます
+    var result3 = map2.get(keyObject3); // -> undefined - 値が undefined と関連付けられている為、undefined が返ってきます
+    var result4 = map1.has(keyObject2); // -> true
+    var result5 = map2.has(keyObject2); // -> false
+    var result6 = map2.has(keyObject3); // -> true (値が関連付けられているならば、たとえ値が 'undefined' であっても true となります)
+                  map3.set(keyObject1, 37);
+    var result7 = map3.get(keyObject1); // -> 37
     var result8 = undefined;
+    var result9 = map1.has(keyObject1); // -> true
+                  map1.delete(keyObject1);
+    var result10 = map1.has(keyObject1); // -> false
 
-/*
-    try {
-                      weakmap3.clear();
-        var result8 = weakmap3.get(keyObject1); // -> undefined - weakmap3 は clear されたため keyObject1 に関連する値は持っていません
-    } catch(o_o) {
-        // node v0.10.26 WeakMap#clear not impl.
-        //throw o_o;
-    }
- */
-
-    var result9 = weakmap1.has(keyObject1); // -> true
-                  weakmap1.delete(keyObject1);
-    var resultA = weakmap1.has(keyObject1); // -> false
+    var result101 = mapA.get(keyObject2); // -> "azerty"
+    var result102 = mapB.get(keyObject2); // -> undefined - map2 には keyObject2 に関連付けられた値が無い為、undefined が返ってきます
+    var result103 = mapB.get(keyObject3); // -> undefined - 値が undefined と関連付けられている為、undefined が返ってきます
+    var result104 = mapA.has(keyObject2); // -> true
+    var result105 = mapB.has(keyObject2); // -> false
+    var result106 = mapB.has(keyObject3); // -> true (値が関連付けられているならば、たとえ値が 'undefined' であっても true となります)
+                    mapC.set(keyObject1, 37);
+    var result107 = mapC.get(keyObject1); // -> 37
+    var result108 = undefined;
+    var result109 = mapA.has(keyObject1); // -> true
+                    mapA.delete(keyObject1);
+    var result110 = mapA.has(keyObject1); // -> false
 
     if (result1 === "azerty" &&
         result2 === undefined &&
@@ -1866,11 +2171,24 @@ function testWeakMap(test, pass, miss) {
         result7 === 37 &&
         result8 === undefined &&
         result9 === true &&
-        resultA === false) {
-        test.done(pass());
-    } else {
-        test.done(miss());
+        result10 === false) {
+
+        if (result1 === "azerty" &&
+            result2 === undefined &&
+            result3 === undefined &&
+            result4 === true &&
+            result5 === false &&
+            result6 === true &&
+            result7 === 37 &&
+            result8 === undefined &&
+            result9 === true &&
+            result10 === false) {
+
+            test.done(pass());
+            return;
+        }
     }
+    test.done(miss());
 }
 
 return test.run().clone();
