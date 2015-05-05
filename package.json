@@ -1,31 +1,22 @@
 {
   "name": "uupaa.es.js",
-  "version": "0.9.3",
-  "description": "ECMA-262 Script version 5 polyfill, fallback and shims.",
+  "version": "0.9.4",
+  "description": "",
   "url": "https://github.com/uupaa/ES.js",
-  "keywords": [
-    "es5",
-    "es6",
-    "shim",
-    "polyfill",
-    "util",
-    "uupaa",
-    "WebModule",
-    "Unstable"
-  ],
+  "keywords": ["es5", "es6", "es7", "polyfill", "uupaa", "WebModule"],
   "repository": {
     "type": "git",
     "url": "https://github.com/uupaa/ES.js.git"
   },
   "scripts": {
     "sync": "node ../WebModule/run/sync.js; npm update; node ../WebModule/run/page.js",
-    "watch": "node ../WebModule/run/watch.js --verbose --action minify",
-    "minify": "node ../WebModule/run/minify.js --verbose --strict --keep --pretty",
-    "build": "node ../WebModule/run/minify.js --verbose --strict --module",
+    "min": "node ../WebModule/run/minify.js --verbose --strict --keep --pretty",
+    "build": "node ../WebModule/run/minify.js --verbose --strict --keep --release",
+    "watch": "node ../WebModule/run/watch.js --verbose --run hint",
     "page": "node ../WebModule/run/page.js --verbose",
-    "test": "npm run minify; npm run node; npm run browser",
-    "node": "NODE_ENV=production NODE_PATH=lib node --harmony test/index.node.js",
-    "noded": "NODE_ENV=production NODE_PATH=lib node --debug-brk --harmony test/index.node.js",
+    "test": "npm run min; npm run node; npm run browser",
+    "node": "NODE_ENV=production NODE_PATH=lib node --harmony test/node.js",
+    "noded": "NODE_ENV=production NODE_PATH=lib node --debug-brk --harmony test/node.js",
     "browser": "open http://localhost:8000/ES.js/test/index.html",
     "sim": "node ../WebModule/run/sim.js http://localhost:8000/ES.js/test/index.html",
     "simx": "node ../WebModule/run/sim.js stop",
@@ -37,34 +28,26 @@
     "stop": "killall -- Python -m SimpleHTTPServer 8000; exit 0"
   },
   "webmodule": {
-    "source": [
-      "lib/ES.js",
-      "lib/ES5_Array.js",
-      "lib/ES5_Date.js",
-      "lib/ES5_Function.js",
-      "lib/ES5_JSON.js",
-      "lib/ES5_Object.js",
-      "lib/ES5_String.js",
-      "lib/ES6_Array.js",
-      "lib/ES6_Number.js",
-      "lib/ES6_Object.js",
-      "lib/ES6_String.js",
-      "lib/ES6_WeakMap.js"
-    ],
-    "output": "release/ES.min.js",
-    "target": [
-      "all"
-    ],
-    "label": [
-      "@dev",
-      "@ie",
-      "@ES5",
-      "@ES6"
-    ]
+    "develop": false,
+    "label": ["@dev"],
+    "browser": {
+      "source": ["lib/ES.js", "lib/ES5.js", "lib/ES6.js", "lib/ES7.js"],
+      "output": "release/ES.b.min.js"
+    },
+    "worker": {
+      "source": ["lib/ES.js", "lib/ES5.js", "lib/ES6.js", "lib/ES7.js"],
+      "output": "release/ES.w.min.js"
+    },
+    "node": {
+      "source": ["lib/ES.js", "lib/ES5.js", "lib/ES6.js", "lib/ES7.js"],
+      "output": "release/ES.n.min.js"
+    },
+    "nw": {
+      "source": ["lib/ES.js", "lib/ES5.js", "lib/ES6.js", "lib/ES7.js"],
+      "output": "release/ES.nw.min.js"
+    }
   },
-  "dependencies": {
-    "uupaa.extend.js": ""
-  },
+  "dependencies": {},
   "devDependencies": {},
   "lib": "./lib/",
   "main": "./index.js",

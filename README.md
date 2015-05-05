@@ -2,7 +2,7 @@
 
 [![npm](https://nodei.co/npm/uupaa.es.js.png?downloads=true&stars=true)](https://nodei.co/npm/uupaa.es.js/)
 
-ECMA-262 Script version 5 polyfill, fallback and shims.
+ECMA-262 Script version 5/6/7 polyfill, fallback, shims and documents.
 
 ## Document
 
