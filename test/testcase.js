@@ -109,6 +109,8 @@ if (ES6_test) {
         testSet_forEach,
         testSet_delete,
         testSet_clear,
+        // --- WeakSet ---
+        testWeakSet,
         // --- Map ---
         testMap_size,
         testMap_get,
@@ -1853,6 +1855,41 @@ function testSet_clear(test, pass, miss) {
                 set2.clear();
                 if (set2.size === 0 &&
                     set2.has("bar") === false) {
+
+                    test.done(pass());
+                    return;
+                }
+            }
+        }
+    }
+    test.done(miss());
+}
+
+// --- WeakMap --------------------------------------------
+function testWeakSet(test, pass, miss) {
+    var ws1 = new WeakSet();
+    var ws2 = new ES[6].WeakSet();
+
+    var obj = {};
+    var foo = {};
+
+    ws1.add(global);
+    ws1.add(obj);
+
+    ws2.add(global);
+    ws2.add(obj);
+
+    if (ws1.has(global) === true &&
+        ws1.has(foo)    === false) {
+        ws1.delete(global);
+        if (ws1.has(global) === false) {
+            //ws1.clear();
+
+            if (ws2.has(global) === true &&
+                ws2.has(foo)    === false) {
+                ws2.delete(global);
+                if (ws2.has(global) === false) {
+                    //ws2.clear();
 
                     test.done(pass());
                     return;
