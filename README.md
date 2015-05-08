@@ -7,17 +7,28 @@ ECMA-262 Script version 5/6/7 polyfill, fallback, shims and documents.
 ## Document
 
 - [ES.js wiki](https://github.com/uupaa/ES.js/wiki/ES)
-- [Development](https://github.com/uupaa/WebModule/wiki/Development)
-- [WebModule](https://github.com/uupaa/WebModule) ([Slide](http://uupaa.github.io/Slide/slide/WebModule/index.html))
+- [WebModule](https://github.com/uupaa/WebModule)
+    - [Slide](http://uupaa.github.io/Slide/slide/WebModule/index.html)
+    - [Development](https://github.com/uupaa/WebModule/wiki/Development)
+
 
 ## How to use
 
-### Browser
+### Browser and node-webkit
 
 ```js
 <script src="lib/ES.js">
 <script>
-ES[5].Object.keys({ a: 1, b: 2, c: 3, d: 4 });
+
+Object.keys({ a: 1, b: 2, c: 3, d: 4 });       // ["a", "b", "c", "d"]
+Object.Assign({}, { a: 1, b: 2, c: 3, d: 4 }); // { a: 1, b: 2, c: 3, d: 4 }
+[1,2,3].includes(3);                           // true
+
+// raw interface
+ES[5].Object.keys({ a: 1, b: 2, c: 3, d: 4 });       // ["a", "b", "c", "d"]
+ES[6].Object.Assign({}, { a: 1, b: 2, c: 3, d: 4 }); // { a: 1, b: 2, c: 3, d: 4 }
+ES[7].Array.prototype.includes.call([1,2,3], 3);     // true
+
 </script>
 ```
 
@@ -26,14 +37,12 @@ ES[5].Object.keys({ a: 1, b: 2, c: 3, d: 4 });
 ```js
 importScripts("lib/ES.js");
 
-ES[5].Object.keys({ a: 1, b: 2, c: 3, d: 4 });
 ```
 
 ### Node.js
 
 ```js
-var ES = require("lib/ES.js");
+require("lib/ES.js");
 
-ES[5].Object.keys({ a: 1, b: 2, c: 3, d: 4 });
 ```
 
