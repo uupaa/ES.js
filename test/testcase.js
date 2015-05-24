@@ -1,18 +1,6 @@
 var ModuleTestES = (function(global) {
 
-var _isNodeOrNodeWebKit = !!global.global;
-var _runOnNodeWebKit =  _isNodeOrNodeWebKit &&  /native/.test(setTimeout);
-var _runOnNode       =  _isNodeOrNodeWebKit && !/native/.test(setTimeout);
-var _runOnWorker     = !_isNodeOrNodeWebKit && "WorkerLocation" in global;
-var _runOnBrowser    = !_isNodeOrNodeWebKit && "document" in global;
-
 global["BENCHMARK"] = false;
-
-if (console) {
-    if (!console.table) {
-        console.table = console.dir;
-    }
-}
 
 var test = new Test("ES", {
         disable:    false, // disable all tests.
@@ -21,8 +9,12 @@ var test = new Test("ES", {
         node:       true,  // enable node test.
         nw:         true,  // enable nw.js test.
         button:     true,  // show button.
-        both:       false, // test the primary and secondary modules.
+        both:       true,  // test the primary and secondary modules.
         ignoreError:false, // ignore error.
+        callback:   function() {
+        },
+        errorback:  function(error) {
+        }
     });
 
 var ES5_test = 1;
@@ -129,14 +121,6 @@ if (ES6_test) {
 if (ES7_test) {
     test.add([
     ]);
-}
-
-if (_runOnBrowser || _runOnNodeWebKit) {
-    //test.add([]);
-} else if (_runOnWorker) {
-    //test.add([]);
-} else if (_runOnNode) {
-    //test.add([]);
 }
 
 // --- test cases ------------------------------------------
@@ -2228,7 +2212,7 @@ function testWeakMap(test, pass, miss) {
     test.done(miss());
 }
 
-return test.run().clone();
+return test.run();
 
-})((this || 0).self || global);
+})(GLOBAL);
 

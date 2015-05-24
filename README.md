@@ -11,13 +11,12 @@ ECMA-262 Script version 5/6/7 polyfill, fallback, shims and documents.
     - [Slide](http://uupaa.github.io/Slide/slide/WebModule/index.html)
     - [Development](https://github.com/uupaa/WebModule/wiki/Development)
 
-
-## How to use
+## Run on
 
 ### Browser and node-webkit
 
 ```js
-<script src="lib/ES.js">
+<script src="lib/ES.js"></script>
 <script>
 
 Object.keys({ a: 1, b: 2, c: 3, d: 4 });       // ["a", "b", "c", "d"]

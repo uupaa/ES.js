@@ -1,6 +1,6 @@
 {
   "name": "uupaa.es.js",
-  "version": "0.9.9",
+  "version": "0.9.10",
   "description": "",
   "url": "https://github.com/uupaa/ES.js",
   "keywords": ["es5", "es6", "es7", "polyfill", "uupaa", "WebModule"],
@@ -20,7 +20,7 @@
     "browser": "open http://localhost:8000/ES.js/test/index.html",
     "sim": "node ../WebModule/run/sim.js http://localhost:8000/ES.js/test/index.html",
     "simx": "node ../WebModule/run/sim.js stop",
-    "hint": "jshint lib/*.js",
+    "hint": "eslint lib/*.js",
     "score": "node ../WebModule/run/score.js; open lint/plato/index.html",
     "patch": "node ../WebModule/run/patch.js",
     "setup": "node ../WebModule/run/setup.js",
@@ -31,27 +31,29 @@
     "develop": false,
     "label": ["@dev"],
     "browser": {
-      "source": ["lib/ES.js", "lib/ES5.js", "lib/ES6.js", "lib/ES7.js"],
+      "source": ["lib/ES.js"],
       "output": "release/ES.b.min.js"
     },
     "worker": {
-      "source": ["lib/ES.js", "lib/ES5.js", "lib/ES6.js", "lib/ES7.js"],
+      "source": ["lib/ES.js"],
       "output": "release/ES.w.min.js"
     },
     "node": {
-      "source": ["lib/ES.js", "lib/ES5.js", "lib/ES6.js", "lib/ES7.js"],
+      "source": ["lib/ES.js"],
       "output": "release/ES.n.min.js"
     },
     "nw": {
-      "source": ["lib/ES.js", "lib/ES5.js", "lib/ES6.js", "lib/ES7.js"],
+      "source": ["lib/ES.js"],
       "output": "release/ES.nw.min.js"
     }
   },
-  "dependencies": {},
+  "dependencies": {
+    "uupaa.hash.js": ""
+  },
   "devDependencies": {},
   "lib": "./lib/",
   "main": "./index.js",
-  "author": "uupaa <uupaa.js@gmail.com>",
+  "author": "uupaa",
   "license": "MIT",
   "contributors": []
 }
