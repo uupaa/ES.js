@@ -21,6 +21,20 @@ var ES5_test = 1;
 var ES6_test = 1;
 var ES7_test = 1;
 
+if (IN_BROWSER || IN_NW) {
+    test.add([
+        // browser and node-webkit test
+    ]);
+} else if (IN_WORKER) {
+    test.add([
+        // worker test
+    ]);
+} else if (IN_NODE) {
+    test.add([
+        // node.js and io.js test
+    ]);
+}
+
 if (ES5_test) {
     test.add([
         // --- Object ---
@@ -123,6 +137,7 @@ if (ES7_test) {
     ]);
 }
 
+
 // --- test cases ------------------------------------------
 function testSetup(test, pass, miss) {
     //ES(6.0);
@@ -156,10 +171,10 @@ function testSetup(test, pass, miss) {
 function testObject_keys(test, pass, miss) {
     var source1 = { a: 1, b: 2, c: 3, d: 4 };
     var source2 = [ 1, 2, 3, 4 ];
-    var polyfill1 = ES[5].Object.keys(source1); // ["a", "b", "c", "d"]
-    var polyfill2 = ES[5].Object.keys(source2); // ["0", "1", "2", "3"]
-    var native1   =       Object.keys(source1);
-    var native2   =       Object.keys(source2);
+    var polyfill1 = WebModule.ES[5].Object.keys(source1); // ["a", "b", "c", "d"]
+    var polyfill2 = WebModule.ES[5].Object.keys(source2); // ["0", "1", "2", "3"]
+    var native1   =                 Object.keys(source1);
+    var native2   =                 Object.keys(source2);
 
     if ( JSON.stringify(polyfill1) === JSON.stringify(native1) &&
          JSON.stringify(polyfill2) === JSON.stringify(native2) ) {
@@ -182,8 +197,8 @@ function testObject_create(test, pass, miss) {
         "getValue":     { "value": function() { return this._value; } },
     };
 
-    Foo1.prototype = new ES[5].Object.create(Foo1, properties1);
-    Foo2.prototype =           Object.create(Foo2, properties2);
+    Foo1.prototype = new WebModule.ES[5].Object.create(Foo1, properties1);
+    Foo2.prototype =                     Object.create(Foo2, properties2);
 
     var foo1 = new Foo1(1);
     var foo2 = new Foo2(1);
@@ -202,8 +217,8 @@ function testObject_freeze(test, pass, miss) {
 }
 
 function testString_trim(test, pass, miss) {
-    var polyfill = ES[5].String.prototype.trim.call(" a b \n");
-    var native   =       String.prototype.trim.call(" a b \n");
+    var polyfill = WebModule.ES[5].String.prototype.trim.call(" a b \n");
+    var native   =                 String.prototype.trim.call(" a b \n");
 
     if (polyfill === native) {
         test.done(pass());
@@ -214,8 +229,8 @@ function testString_trim(test, pass, miss) {
 
 function testDate_now(test, pass, miss) {
     for (var i = 0; i < 3; ++i) {
-        var polyfill = ES[5].Date.now();
-        var native   =       Date.now();
+        var polyfill = WebModule.ES[5].Date.now();
+        var native   =                 Date.now();
 
         if (polyfill === native) {
             test.done(pass());
@@ -228,8 +243,8 @@ function testDate_now(test, pass, miss) {
 function testDate_toJSON(test, pass, miss) {
     var date = new Date();
 
-    var polyfill = ES[5].Date.prototype.toJSON.call(date);
-    var native   =       Date.prototype.toJSON.call(date);
+    var polyfill = WebModule.ES[5].Date.prototype.toJSON.call(date);
+    var native   =                 Date.prototype.toJSON.call(date);
 
     if (polyfill === native) {
         test.done(pass());
@@ -242,7 +257,7 @@ function testFunction_bind(test, pass, miss) {
     var data = { value: 1 };
     var method = function(x) { return this.value + x; };
 
-    var polyfill = ES[5].Function.prototype.bind.call(method, data, 2);
+    var polyfill = WebModule.ES[5].Function.prototype.bind.call(method, data, 2);
     var native   = method.bind(data, 2);
 
     if (polyfill() === native()) {
@@ -256,8 +271,8 @@ function testJSON_parse(test, pass, miss) {
     var data = { value: 1 };
     var json = JSON.stringify(data);
 
-    var polyfill = ES[5].JSON.parse.call(null, json);
-    var native   =       JSON.parse.call(null, json);
+    var polyfill = WebModule.ES[5].JSON.parse.call(null, json);
+    var native   =                 JSON.parse.call(null, json);
 
     if (JSON.stringify(polyfill) === JSON.stringify(native)) {
         test.done(pass());
@@ -269,8 +284,8 @@ function testJSON_parse(test, pass, miss) {
 function testJSON_stringify(test, pass, miss) {
     var data = { value: 1 };
 
-    var polyfill = ES[5].JSON.stringify.call(null, data);
-    var native   =       JSON.stringify.call(null, data);
+    var polyfill = WebModule.ES[5].JSON.stringify.call(null, data);
+    var native   =                 JSON.stringify.call(null, data);
 
     if (polyfill === native) {
         test.done(pass());
@@ -282,10 +297,10 @@ function testJSON_stringify(test, pass, miss) {
 function testArray_isArray(test, pass, miss) {
     var source1 = { a: 1, b: 2, c: 3, d: 4 };
     var source2 = [ 1, 2, 3, 4 ];
-    var result1 = ES[5].Array.isArray(source1);
-    var native1 = Array.isArray(source1);
-    var result2 = ES[5].Array.isArray(source2);
-    var native2 = Array.isArray(source2);
+    var result1 = WebModule.ES[5].Array.isArray(source1);
+    var native1 =                 Array.isArray(source1);
+    var result2 = WebModule.ES[5].Array.isArray(source2);
+    var native2 =                 Array.isArray(source2);
 
     if ( JSON.stringify(result1) === JSON.stringify(native1) &&
          JSON.stringify(result2) === JSON.stringify(native2) ) {
@@ -298,10 +313,10 @@ function testArray_isArray(test, pass, miss) {
 function testArray_indexOf(test, pass, miss) {
     var source1 = { a: 1, b: 2, c: 3, d: 4 };
     var source2 = [ 1, 2, 3, 4 ];
-    var result1 = ES[5].Array.prototype.indexOf.call(source1, 2);
-    var native1 = Array.prototype.indexOf.call(source1, 2);
-    var result2 = ES[5].Array.prototype.indexOf.call(source2, 2);
-    var native2 = Array.prototype.indexOf.call(source2, 2);
+    var result1 = WebModule.ES[5].Array.prototype.indexOf.call(source1, 2);
+    var native1 =                 Array.prototype.indexOf.call(source1, 2);
+    var result2 = WebModule.ES[5].Array.prototype.indexOf.call(source2, 2);
+    var native2 =                 Array.prototype.indexOf.call(source2, 2);
 
     if ( JSON.stringify(result1) === JSON.stringify(native1) &&
          JSON.stringify(result2) === JSON.stringify(native2) ) {
@@ -314,10 +329,10 @@ function testArray_indexOf(test, pass, miss) {
 function testArray_lastIndexOf(test, pass, miss) {
     var source1 = { a: 1, b: 2, c: 3, d: 4 };
     var source2 = [ 1, 2, 3, 4 ];
-    var result1 = ES[5].Array.prototype.lastIndexOf.call(source1, 2);
-    var native1 = Array.prototype.lastIndexOf.call(source1, 2);
-    var result2 = ES[5].Array.prototype.lastIndexOf.call(source2, 2);
-    var native2 = Array.prototype.lastIndexOf.call(source2, 2);
+    var result1 = WebModule.ES[5].Array.prototype.lastIndexOf.call(source1, 2);
+    var native1 =                 Array.prototype.lastIndexOf.call(source1, 2);
+    var result2 = WebModule.ES[5].Array.prototype.lastIndexOf.call(source2, 2);
+    var native2 =                 Array.prototype.lastIndexOf.call(source2, 2);
 
     if ( JSON.stringify(result1) === JSON.stringify(native1) &&
          JSON.stringify(result2) === JSON.stringify(native2) ) {
@@ -335,13 +350,13 @@ function testArray_forEach(test, pass, miss) {
     var result2 = [];
     var native2 = [];
 
-    ES[5].Array.prototype.forEach.call(source1, function(value, index) {
+    WebModule.ES[5].Array.prototype.forEach.call(source1, function(value, index) {
         result1[value] = index;
     });
     Array.prototype.forEach.call(source1, function(value, index) {
         native1[value] = index;
     });
-    ES[5].Array.prototype.forEach.call(source2, function(value, index) {
+    WebModule.ES[5].Array.prototype.forEach.call(source2, function(value, index) {
         result2[value] = index;
     });
     Array.prototype.forEach.call(source2, function(value, index) {
@@ -364,13 +379,13 @@ function testArray_map(test, pass, miss) {
     var result2 = [];
     var native2 = [];
 
-    result1 = ES[5].Array.prototype.map.call(source1, function(value, index) {
+    result1 = WebModule.ES[5].Array.prototype.map.call(source1, function(value, index) {
         return value;
     });
     native1 = Array.prototype.map.call(source1, function(value, index) {
         return value;
     });
-    result2 = ES[5].Array.prototype.map.call(source2, function(value, index) {
+    result2 = WebModule.ES[5].Array.prototype.map.call(source2, function(value, index) {
         return value;
     });
     native2 = Array.prototype.map.call(source2, function(value, index) {
@@ -393,13 +408,13 @@ function testArray_some(test, pass, miss) {
     var result2 = [];
     var native2 = [];
 
-    result1 = ES[5].Array.prototype.some.call(source1, function(value, index) {
+    result1 = WebModule.ES[5].Array.prototype.some.call(source1, function(value, index) {
         return value < 3;
     });
     native1 = Array.prototype.some.call(source1, function(value, index) {
         return value < 3;
     });
-    result2 = ES[5].Array.prototype.some.call(source2, function(value, index) {
+    result2 = WebModule.ES[5].Array.prototype.some.call(source2, function(value, index) {
         return value < 3;
     });
     native2 = Array.prototype.some.call(source2, function(value, index) {
@@ -422,13 +437,13 @@ function testArray_every(test, pass, miss) {
     var result2 = [];
     var native2 = [];
 
-    result1 = ES[5].Array.prototype.every.call(source1, function(value, index) {
+    result1 = WebModule.ES[5].Array.prototype.every.call(source1, function(value, index) {
         return value < 3;
     });
     native1 = Array.prototype.every.call(source1, function(value, index) {
         return value < 3;
     });
-    result2 = ES[5].Array.prototype.every.call(source2, function(value, index) {
+    result2 = WebModule.ES[5].Array.prototype.every.call(source2, function(value, index) {
         return value < 3;
     });
     native2 = Array.prototype.every.call(source2, function(value, index) {
@@ -451,13 +466,13 @@ function testArray_filter(test, pass, miss) {
     var result2 = [];
     var native2 = [];
 
-    result1 = ES[5].Array.prototype.filter.call(source1, function(value, index) {
+    result1 = WebModule.ES[5].Array.prototype.filter.call(source1, function(value, index) {
         return value % 2;
     });
     native1 = Array.prototype.filter.call(source1, function(value, index) {
         return value % 2;
     });
-    result2 = ES[5].Array.prototype.filter.call(source2, function(value, index) {
+    result2 = WebModule.ES[5].Array.prototype.filter.call(source2, function(value, index) {
         return value % 2;
     });
     native2 = Array.prototype.filter.call(source2, function(value, index) {
@@ -480,13 +495,13 @@ function testArray_reduce(test, pass, miss) {
     var result2 = [];
     var native2 = [];
 
-    result1 = ES[5].Array.prototype.reduce.call(source1, function(prev, curt, index) {
+    result1 = WebModule.ES[5].Array.prototype.reduce.call(source1, function(prev, curt, index) {
         return prev * curt + index;
     }, 3);
     native1 = Array.prototype.reduce.call(source1, function(prev, curt, index) {
         return prev * curt + index;
     }, 3);
-    result2 = ES[5].Array.prototype.reduce.call(source2, function(prev, curt, index) {
+    result2 = WebModule.ES[5].Array.prototype.reduce.call(source2, function(prev, curt, index) {
         return prev * curt + index;
     }, 3);
     native2 = Array.prototype.reduce.call(source2, function(prev, curt, index) {
@@ -509,13 +524,13 @@ function testArray_reduceRight(test, pass, miss) {
     var result2 = [];
     var native2 = [];
 
-    result1 = ES[5].Array.prototype.reduceRight.call(source1, function(prev, curt, index) {
+    result1 = WebModule.ES[5].Array.prototype.reduceRight.call(source1, function(prev, curt, index) {
         return prev * curt + index;
     }, 3);
     native1 = Array.prototype.reduceRight.call(source1, function(prev, curt, index) {
         return prev * curt + index;
     }, 3);
-    result2 = ES[5].Array.prototype.reduceRight.call(source2, function(prev, curt, index) {
+    result2 = WebModule.ES[5].Array.prototype.reduceRight.call(source2, function(prev, curt, index) {
         return prev * curt + index;
     }, 3);
     native2 = Array.prototype.reduceRight.call(source2, function(prev, curt, index) {
@@ -537,10 +552,10 @@ function testArray_sparse_indexOf(test, pass, miss) {
     delete source1["b"];
     delete source2[1];
 
-    var result1 = ES[5].Array.prototype.indexOf.call(source1, 2);
-    var native1 = Array.prototype.indexOf.call(source1, 2);
-    var result2 = ES[5].Array.prototype.indexOf.call(source2, 2);
-    var native2 = Array.prototype.indexOf.call(source2, 2);
+    var result1 = WebModule.ES[5].Array.prototype.indexOf.call(source1, 2);
+    var native1 =                 Array.prototype.indexOf.call(source1, 2);
+    var result2 = WebModule.ES[5].Array.prototype.indexOf.call(source2, 2);
+    var native2 =                 Array.prototype.indexOf.call(source2, 2);
 
     if ( JSON.stringify(result1) === JSON.stringify(native1) &&
          JSON.stringify(result2) === JSON.stringify(native2) ) {
@@ -557,10 +572,10 @@ function testArray_sparse_lastIndexOf(test, pass, miss) {
     delete source1["b"];
     delete source2[1];
 
-    var result1 = ES[5].Array.prototype.lastIndexOf.call(source1, 2);
-    var native1 = Array.prototype.lastIndexOf.call(source1, 2);
-    var result2 = ES[5].Array.prototype.lastIndexOf.call(source2, 2);
-    var native2 = Array.prototype.lastIndexOf.call(source2, 2);
+    var result1 = WebModule.ES[5].Array.prototype.lastIndexOf.call(source1, 2);
+    var native1 =                 Array.prototype.lastIndexOf.call(source1, 2);
+    var result2 = WebModule.ES[5].Array.prototype.lastIndexOf.call(source2, 2);
+    var native2 =                 Array.prototype.lastIndexOf.call(source2, 2);
 
     if ( JSON.stringify(result1) === JSON.stringify(native1) &&
          JSON.stringify(result2) === JSON.stringify(native2) ) {
@@ -582,13 +597,13 @@ function testArray_sparse_forEach(test, pass, miss) {
     var result2 = [];
     var native2 = [];
 
-    ES[5].Array.prototype.forEach.call(source1, function(value, index) {
+    WebModule.ES[5].Array.prototype.forEach.call(source1, function(value, index) {
         result1[value] = index;
     });
     Array.prototype.forEach.call(source1, function(value, index) {
         native1[value] = index;
     });
-    ES[5].Array.prototype.forEach.call(source2, function(value, index) {
+    WebModule.ES[5].Array.prototype.forEach.call(source2, function(value, index) {
         result2[value] = index;
     });
     Array.prototype.forEach.call(source2, function(value, index) {
@@ -615,13 +630,13 @@ function testArray_sparse_map(test, pass, miss) {
     var result2 = [];
     var native2 = [];
 
-    result1 = ES[5].Array.prototype.map.call(source1, function(value, index) {
+    result1 = WebModule.ES[5].Array.prototype.map.call(source1, function(value, index) {
         return value;
     });
     native1 = Array.prototype.map.call(source1, function(value, index) {
         return value;
     });
-    result2 = ES[5].Array.prototype.map.call(source2, function(value, index) {
+    result2 = WebModule.ES[5].Array.prototype.map.call(source2, function(value, index) {
         return value;
     });
     native2 = Array.prototype.map.call(source2, function(value, index) {
@@ -648,13 +663,13 @@ function testArray_sparse_some(test, pass, miss) {
     var result2 = [];
     var native2 = [];
 
-    result1 = ES[5].Array.prototype.some.call(source1, function(value, index) {
+    result1 = WebModule.ES[5].Array.prototype.some.call(source1, function(value, index) {
         return value < 3;
     });
     native1 = Array.prototype.some.call(source1, function(value, index) {
         return value < 3;
     });
-    result2 = ES[5].Array.prototype.some.call(source2, function(value, index) {
+    result2 = WebModule.ES[5].Array.prototype.some.call(source2, function(value, index) {
         return value < 3;
     });
     native2 = Array.prototype.some.call(source2, function(value, index) {
@@ -681,13 +696,13 @@ function testArray_sparse_every(test, pass, miss) {
     var result2 = [];
     var native2 = [];
 
-    result1 = ES[5].Array.prototype.every.call(source1, function(value, index) {
+    result1 = WebModule.ES[5].Array.prototype.every.call(source1, function(value, index) {
         return value < 3;
     });
     native1 = Array.prototype.every.call(source1, function(value, index) {
         return value < 3;
     });
-    result2 = ES[5].Array.prototype.every.call(source2, function(value, index) {
+    result2 = WebModule.ES[5].Array.prototype.every.call(source2, function(value, index) {
         return value < 3;
     });
     native2 = Array.prototype.every.call(source2, function(value, index) {
@@ -714,13 +729,13 @@ function testArray_sparse_filter(test, pass, miss) {
     var result2 = [];
     var native2 = [];
 
-    result1 = ES[5].Array.prototype.filter.call(source1, function(value, index) {
+    result1 = WebModule.ES[5].Array.prototype.filter.call(source1, function(value, index) {
         return value % 2;
     });
     native1 = Array.prototype.filter.call(source1, function(value, index) {
         return value % 2;
     });
-    result2 = ES[5].Array.prototype.filter.call(source2, function(value, index) {
+    result2 = WebModule.ES[5].Array.prototype.filter.call(source2, function(value, index) {
         return value % 2;
     });
     native2 = Array.prototype.filter.call(source2, function(value, index) {
@@ -747,13 +762,13 @@ function testArray_sparse_reduce(test, pass, miss) {
     var result2 = [];
     var native2 = [];
 
-    result1 = ES[5].Array.prototype.reduce.call(source1, function(prev, curt, index) {
+    result1 = WebModule.ES[5].Array.prototype.reduce.call(source1, function(prev, curt, index) {
         return prev * curt + index;
     }, 3);
     native1 = Array.prototype.reduce.call(source1, function(prev, curt, index) {
         return prev * curt + index;
     }, 3);
-    result2 = ES[5].Array.prototype.reduce.call(source2, function(prev, curt, index) {
+    result2 = WebModule.ES[5].Array.prototype.reduce.call(source2, function(prev, curt, index) {
         return prev * curt + index;
     }, 3);
     native2 = Array.prototype.reduce.call(source2, function(prev, curt, index) {
@@ -780,13 +795,13 @@ function testArray_sparse_reduceRight(test, pass, miss) {
     var result2 = [];
     var native2 = [];
 
-    result1 = ES[5].Array.prototype.reduceRight.call(source1, function(prev, curt, index) {
+    result1 = WebModule.ES[5].Array.prototype.reduceRight.call(source1, function(prev, curt, index) {
         return prev * curt + index;
     }, 3);
     native1 = Array.prototype.reduceRight.call(source1, function(prev, curt, index) {
         return prev * curt + index;
     }, 3);
-    result2 = ES[5].Array.prototype.reduceRight.call(source2, function(prev, curt, index) {
+    result2 = WebModule.ES[5].Array.prototype.reduceRight.call(source2, function(prev, curt, index) {
         return prev * curt + index;
     }, 3);
     native2 = Array.prototype.reduceRight.call(source2, function(prev, curt, index) {
@@ -806,26 +821,26 @@ function testArray_reduce_complex(test, pass, miss) {
 
     delete source2[1];
 
-    var result1 = ES[5].Array.prototype.reduce.call(source2, function(prev, curt, index) {
+    var result1 = WebModule.ES[5].Array.prototype.reduce.call(source2, function(prev, curt, index) {
         return prev * curt + index;
     });
     var native1 = Array.prototype.reduce.call(source2, function(prev, curt, index) {
         return prev * curt + index;
     });
-    var result2 = ES[5].Array.prototype.reduce.call(source2, function(prev, curt, index) {
+    var result2 = WebModule.ES[5].Array.prototype.reduce.call(source2, function(prev, curt, index) {
         return prev * curt + index;
     }, 0);
     var native2 = Array.prototype.reduce.call(source2, function(prev, curt, index) {
         return prev * curt + index;
     }, 0);
-    var result3 = ES[5].Array.prototype.reduce.call(source2, function(prev, curt, index) {
+    var result3 = WebModule.ES[5].Array.prototype.reduce.call(source2, function(prev, curt, index) {
         return prev * curt + index;
     }, 0);
     var native3 = Array.prototype.reduce.call(source2, function(prev, curt, index) {
         return prev * curt + index;
     }, 0);
     try {
-        var result4 = ES[5].Array.prototype.reduce.call([], function(prev, curt, index) {
+        var result4 = WebModule.ES[5].Array.prototype.reduce.call([], function(prev, curt, index) {
             return prev * curt + index;
         });
     } catch(err) { result = "ok"; }
@@ -850,26 +865,26 @@ function testArray_reduceRight_complex(test, pass, miss) {
 
     delete source2[1];
 
-    var result1 = ES[5].Array.prototype.reduceRight.call(source2, function(prev, curt, index) {
+    var result1 = WebModule.ES[5].Array.prototype.reduceRight.call(source2, function(prev, curt, index) {
         return prev * curt + index;
     });
     var native1 = Array.prototype.reduceRight.call(source2, function(prev, curt, index) {
         return prev * curt + index;
     });
-    var result2 = ES[5].Array.prototype.reduceRight.call(source2, function(prev, curt, index) {
+    var result2 = WebModule.ES[5].Array.prototype.reduceRight.call(source2, function(prev, curt, index) {
         return prev * curt + index;
     }, 0);
     var native2 = Array.prototype.reduceRight.call(source2, function(prev, curt, index) {
         return prev * curt + index;
     }, 0);
-    var result3 = ES[5].Array.prototype.reduceRight.call(source2, function(prev, curt, index) {
+    var result3 = WebModule.ES[5].Array.prototype.reduceRight.call(source2, function(prev, curt, index) {
         return prev * curt + index;
     }, 0);
     var native3 = Array.prototype.reduceRight.call(source2, function(prev, curt, index) {
         return prev * curt + index;
     }, 0);
     try {
-        var result4 = ES[5].Array.prototype.reduceRight.call([], function(prev, curt, index) {
+        var result4 = WebModule.ES[5].Array.prototype.reduceRight.call([], function(prev, curt, index) {
             return prev * curt + index;
         });
     } catch(err) { result = "ok"; }
@@ -908,9 +923,9 @@ function testObject_name(test, pass, miss) {
 
 function testObject_assign(test, pass, miss) {
     var polyfill = {
-        clone:  ES[6].Object.assign.call(null, {}, { a: 1 }),
-        merge:  ES[6].Object.assign.call(null, { a: 1 }, { b: 2 }, { c: 3 }),
-        obj:          Object.create({ foo:1 }, { bar: { value:2 }, baz: { value:3, enumerable:true }}),
+        clone:  WebModule.ES[6].Object.assign.call(null, {}, { a: 1 }),
+        merge:  WebModule.ES[6].Object.assign.call(null, { a: 1 }, { b: 2 }, { c: 3 }),
+        obj:    Object.create({ foo:1 }, { bar: { value:2 }, baz: { value:3, enumerable:true }}),
     };
     var native = {
         clone:  Object.assign({}, { a: 1 }),
@@ -933,13 +948,13 @@ function testObject_assign(test, pass, miss) {
 function testObject_is(test, pass, miss) {
     var obj = { a: 1 };
 
-    if (Object.is("foo", "foo") === ES[6].Object.is("foo", "foo") &&
-        Object.is(obj, obj)     === ES[6].Object.is(obj, obj) &&
-        Object.is([], [])       === ES[6].Object.is([], []) &&
-        Object.is(null, null)   === ES[6].Object.is(null, null) &&
-        Object.is(0, -0)        === ES[6].Object.is(0, -0) &&
-        Object.is(-0, -0)       === ES[6].Object.is(-0, -0) &&
-        Object.is(NaN, 0/0)     === ES[6].Object.is(NaN, 0/0)) {
+    if (Object.is("foo", "foo") === WebModule.ES[6].Object.is("foo", "foo") &&
+        Object.is(obj, obj)     === WebModule.ES[6].Object.is(obj, obj) &&
+        Object.is([], [])       === WebModule.ES[6].Object.is([], []) &&
+        Object.is(null, null)   === WebModule.ES[6].Object.is(null, null) &&
+        Object.is(0, -0)        === WebModule.ES[6].Object.is(0, -0) &&
+        Object.is(-0, -0)       === WebModule.ES[6].Object.is(-0, -0) &&
+        Object.is(NaN, 0/0)     === WebModule.ES[6].Object.is(NaN, 0/0)) {
         test.done(pass());
     } else {
         test.done(miss());
@@ -947,9 +962,9 @@ function testObject_is(test, pass, miss) {
 }
 
 function testArray_of(test, pass, miss) {
-    if (Array.of(1).join()             === ES[6].Array.of(1).join() &&
-        Array.of(1, 2, 3).join()       === ES[6].Array.of(1, 2, 3).join() &&
-        Array.of(undefined).join()     === ES[6].Array.of(undefined).join()) {
+    if (Array.of(1).join()             === WebModule.ES[6].Array.of(1).join() &&
+        Array.of(1, 2, 3).join()       === WebModule.ES[6].Array.of(1, 2, 3).join() &&
+        Array.of(undefined).join()     === WebModule.ES[6].Array.of(undefined).join()) {
         test.done(pass());
     } else {
         test.done(miss());
@@ -961,7 +976,7 @@ function testArray_from(test, pass, miss) {
         return Array.from(arguments);
     }
     function polyfill() {
-        return ES[6].Array.from(arguments);
+        return WebModule.ES[6].Array.from(arguments);
     }
 
     //var s = new Set(["foo", window]);
@@ -970,14 +985,14 @@ function testArray_from(test, pass, miss) {
     //var m = new Map([[1, 2], [2, 4], [4, 8]]);
     //Array.from(m); // [[1, 2], [2, 4], [4, 8]]
 
-    var native2   =       Array.from([1, 2, 3], function(x) { return x + x; }); // [2, 4, 6]
-    var polyfill2 = ES[6].Array.from([1, 2, 3], function(x) { return x + x; }); // [2, 4, 6]
+    var native2   =                 Array.from([1, 2, 3], function(x) { return x + x; }); // [2, 4, 6]
+    var polyfill2 = WebModule.ES[6].Array.from([1, 2, 3], function(x) { return x + x; }); // [2, 4, 6]
 
-    var native3   =       Array.from({length: 5}, function(v, k) { return k; }); // [0, 1, 2, 3, 4]
-    var polyfill3 = ES[6].Array.from({length: 5}, function(v, k) { return k; }); // [0, 1, 2, 3, 4]
+    var native3   =                 Array.from({length: 5}, function(v, k) { return k; }); // [0, 1, 2, 3, 4]
+    var polyfill3 = WebModule.ES[6].Array.from({length: 5}, function(v, k) { return k; }); // [0, 1, 2, 3, 4]
 
     if (native(1, 2, 3).join()      === polyfill(1, 2, 3).join() &&
-        Array.from("foo").join()    === ES[6].Array.from("foo").join() &&
+        Array.from("foo").join()    === WebModule.ES[6].Array.from("foo").join() &&
         native2.join()              === polyfill2.join() &&
         native3.join()              === polyfill3.join() ) {
         test.done(pass());
@@ -988,7 +1003,7 @@ function testArray_from(test, pass, miss) {
 
 function testArray_entries(test, pass, miss) {
     var a = [0, 1, 2, 3].entries();
-    var b = ES[6].Array.prototype.entries.call([0, 1, 2, 3]);
+    var b = WebModule.ES[6].Array.prototype.entries.call([0, 1, 2, 3]);
 
     var a1 = a.next();
     var a2 = a.next();
@@ -1022,7 +1037,7 @@ function testArray_entries(test, pass, miss) {
 
 function testArray_keys(test, pass, miss) {
     var a = [0, 1, 2, 3].keys();
-    var b = ES[6].Array.prototype.keys.call([0, 1, 2, 3]);
+    var b = WebModule.ES[6].Array.prototype.keys.call([0, 1, 2, 3]);
 
     var a1 = a.next();
     var a2 = a.next();
@@ -1057,13 +1072,13 @@ function testArray_fill(test, pass, miss) {
     var a7 = [].fill.call({ length: 3 }, 4); // {0: 4, 1: 4, 2: 4, length: 3}
 
 
-    var b1 = ES[6].Array.prototype.fill.call([1, 2, 3], 4);             // [4, 4, 4]
-    var b2 = ES[6].Array.prototype.fill.call([1, 2, 3], 4, 1);          // [1, 4, 4]
-    var b3 = ES[6].Array.prototype.fill.call([1, 2, 3], 4, 1, 2);       // [1, 4, 3]
-    var b4 = ES[6].Array.prototype.fill.call([1, 2, 3], 4, 1, 1);       // [1, 2, 3]
-    var b5 = ES[6].Array.prototype.fill.call([1, 2, 3], 4, -3, -2);     // [4, 2, 3]
-    var b6 = ES[6].Array.prototype.fill.call([1, 2, 3], 4, NaN, NaN);   // [1, 2, 3]
-    var b7 = ES[6].Array.prototype.fill.call({ length: 3 }, 4);         // {0: 4, 1: 4, 2: 4, length: 3}
+    var b1 = WebModule.ES[6].Array.prototype.fill.call([1, 2, 3], 4);             // [4, 4, 4]
+    var b2 = WebModule.ES[6].Array.prototype.fill.call([1, 2, 3], 4, 1);          // [1, 4, 4]
+    var b3 = WebModule.ES[6].Array.prototype.fill.call([1, 2, 3], 4, 1, 2);       // [1, 4, 3]
+    var b4 = WebModule.ES[6].Array.prototype.fill.call([1, 2, 3], 4, 1, 1);       // [1, 2, 3]
+    var b5 = WebModule.ES[6].Array.prototype.fill.call([1, 2, 3], 4, -3, -2);     // [4, 2, 3]
+    var b6 = WebModule.ES[6].Array.prototype.fill.call([1, 2, 3], 4, NaN, NaN);   // [1, 2, 3]
+    var b7 = WebModule.ES[6].Array.prototype.fill.call({ length: 3 }, 4);         // {0: 4, 1: 4, 2: 4, length: 3}
 
     if ( JSON.stringify(a1) === JSON.stringify(b1) &&
          JSON.stringify(a2) === JSON.stringify(b2) &&
@@ -1092,8 +1107,8 @@ function testArray_find(test, pass, miss) {
     var a1 = [4, 6, 8, 12].find(isPrime); // undefined, not found
     var a2 = [4, 5, 8, 12].find(isPrime); // 5
 
-    var b1 = ES[6].Array.prototype.find.call([4, 6, 8, 12], isPrime); // undefined, not found
-    var b2 = ES[6].Array.prototype.find.call([4, 5, 8, 12], isPrime); // 5
+    var b1 = WebModule.ES[6].Array.prototype.find.call([4, 6, 8, 12], isPrime); // undefined, not found
+    var b2 = WebModule.ES[6].Array.prototype.find.call([4, 5, 8, 12], isPrime); // 5
 
 
     if ( JSON.stringify(a1) === JSON.stringify(b1) &&
@@ -1118,8 +1133,8 @@ function testArray_findIndex(test, pass, miss) {
     var a1 = [4, 6, 8, 12].findIndex(isPrime); // -1, not found
     var a2 = [4, 5, 8, 12].findIndex(isPrime); // 25
 
-    var b1 = ES[6].Array.prototype.findIndex.call([4, 6, 8, 12], isPrime); // -1, not found
-    var b2 = ES[6].Array.prototype.findIndex.call([4, 5, 8, 12], isPrime); // 25
+    var b1 = WebModule.ES[6].Array.prototype.findIndex.call([4, 6, 8, 12], isPrime); // -1, not found
+    var b2 = WebModule.ES[6].Array.prototype.findIndex.call([4, 5, 8, 12], isPrime); // 25
 
     if ( JSON.stringify(a1) === JSON.stringify(b1) &&
          JSON.stringify(a2) === JSON.stringify(b2) ) {
@@ -1131,7 +1146,7 @@ function testArray_findIndex(test, pass, miss) {
 
 function testArray_values(test, pass, miss) {
     var a = [0, 1, 2, 3].values();
-    var b = ES[6].Array.prototype.values.call([0, 1, 2, 3]);
+    var b = WebModule.ES[6].Array.prototype.values.call([0, 1, 2, 3]);
 
     var a1 = a.next();
     var a2 = a.next();
@@ -1162,10 +1177,10 @@ function testArray_copyWithin(test, pass, miss) {
     var a3 = [1, 2, 3, 4, 5].copyWithin(0, -2, -1); // [4, 2, 3, 4, 5]
     var a4 = [].copyWithin.call({length: 5, 3: 1}, 0, 3); // {0: 1, 3: 1, length: 5}
 
-    var b1 = ES[6].Array.prototype.copyWithin.call([1, 2, 3, 4, 5], 0, 3); // [4, 5, 3, 4, 5]
-    var b2 = ES[6].Array.prototype.copyWithin.call([1, 2, 3, 4, 5], 0, 3, 4); // [4, 2, 3, 4, 5]
-    var b3 = ES[6].Array.prototype.copyWithin.call([1, 2, 3, 4, 5], 0, -2, -1); // [4, 2, 3, 4, 5]
-    var b4 = ES[6].Array.prototype.copyWithin.call({length: 5, 3: 1}, 0, 3); // {0: 1, 3: 1, length: 5}
+    var b1 = WebModule.ES[6].Array.prototype.copyWithin.call([1, 2, 3, 4, 5], 0, 3); // [4, 5, 3, 4, 5]
+    var b2 = WebModule.ES[6].Array.prototype.copyWithin.call([1, 2, 3, 4, 5], 0, 3, 4); // [4, 2, 3, 4, 5]
+    var b3 = WebModule.ES[6].Array.prototype.copyWithin.call([1, 2, 3, 4, 5], 0, -2, -1); // [4, 2, 3, 4, 5]
+    var b4 = WebModule.ES[6].Array.prototype.copyWithin.call({length: 5, 3: 1}, 0, 3); // {0: 1, 3: 1, length: 5}
 
     if ( JSON.stringify(a1) === JSON.stringify(b1) &&
          JSON.stringify(a2) === JSON.stringify(b2) &&
@@ -1185,12 +1200,12 @@ function testString_fromCodePoint(test, pass, miss) {
     var a5 = String.fromCodePoint(194564);   // "\uD87E\uDC04"
     var a6 = String.fromCodePoint(0x1D306, 0x61, 0x1D307) // "\uD834\uDF06a\uD834\uDF07"
 
-    var b1 = ES[6].String.fromCodePoint(42);       // "*"
-    var b2 = ES[6].String.fromCodePoint(65, 90);   // "AZ"
-    var b3 = ES[6].String.fromCodePoint(0x404);    // "\u0404"
-    var b4 = ES[6].String.fromCodePoint(0x2F804);  // "\uD87E\uDC04"
-    var b5 = ES[6].String.fromCodePoint(194564);   // "\uD87E\uDC04"
-    var b6 = ES[6].String.fromCodePoint(0x1D306, 0x61, 0x1D307) // "\uD834\uDF06a\uD834\uDF07"
+    var b1 = WebModule.ES[6].String.fromCodePoint(42);       // "*"
+    var b2 = WebModule.ES[6].String.fromCodePoint(65, 90);   // "AZ"
+    var b3 = WebModule.ES[6].String.fromCodePoint(0x404);    // "\u0404"
+    var b4 = WebModule.ES[6].String.fromCodePoint(0x2F804);  // "\uD87E\uDC04"
+    var b5 = WebModule.ES[6].String.fromCodePoint(194564);   // "\uD87E\uDC04"
+    var b6 = WebModule.ES[6].String.fromCodePoint(0x1D306, 0x61, 0x1D307) // "\uD834\uDF06a\uD834\uDF07"
 
     if ( JSON.stringify(a1) === JSON.stringify(b1) &&
          JSON.stringify(a2) === JSON.stringify(b2) &&
@@ -1212,12 +1227,12 @@ function testString_repeat(test, pass, miss) {
     var a5 = 'abc'.repeat(3.5);  // 'abcabcabc' (count will be converted to integer)
 //  var a6 = 'abc'.repeat(1/0);  // RangeError
 
-//  var b1 = ES[6].String.prototype.repeat.call('abc', -1);   // RangeError
-    var b2 = ES[6].String.prototype.repeat.call('abc', 0);    // ''
-    var b3 = ES[6].String.prototype.repeat.call('abc', 1);    // 'abc'
-    var b4 = ES[6].String.prototype.repeat.call('abc', 2);    // 'abcabc'
-    var b5 = ES[6].String.prototype.repeat.call('abc', 3.5);  // 'abcabcabc' (count will be converted to integer)
-//  var b6 = ES[6].String.prototype.repeat.call('abc', 1/0);  // RangeError
+//  var b1 = WebModule.ES[6].String.prototype.repeat.call('abc', -1);   // RangeError
+    var b2 = WebModule.ES[6].String.prototype.repeat.call('abc', 0);    // ''
+    var b3 = WebModule.ES[6].String.prototype.repeat.call('abc', 1);    // 'abc'
+    var b4 = WebModule.ES[6].String.prototype.repeat.call('abc', 2);    // 'abcabc'
+    var b5 = WebModule.ES[6].String.prototype.repeat.call('abc', 3.5);  // 'abcabcabc' (count will be converted to integer)
+//  var b6 = WebModule.ES[6].String.prototype.repeat.call('abc', 1/0);  // RangeError
 
     if (
          JSON.stringify(a2) === JSON.stringify(b2) &&
@@ -1236,9 +1251,9 @@ function testString_codePointAt(test, pass, miss) {
     var a2 = '\uD800\uDC00'.codePointAt(0); // 65536
     var a3 = 'XYZ'.codePointAt(42);         // undefined
 
-    var b1 = ES[6].String.prototype.codePointAt.call('ABC', 1);          // 66
-    var b2 = ES[6].String.prototype.codePointAt.call('\uD800\uDC00', 0); // 65536
-    var b3 = ES[6].String.prototype.codePointAt.call('XYZ', 42);         // undefined
+    var b1 = WebModule.ES[6].String.prototype.codePointAt.call('ABC', 1);          // 66
+    var b2 = WebModule.ES[6].String.prototype.codePointAt.call('\uD800\uDC00', 0); // 65536
+    var b3 = WebModule.ES[6].String.prototype.codePointAt.call('XYZ', 42);         // undefined
 
     if ( JSON.stringify(a1) === JSON.stringify(b1) &&
          JSON.stringify(a2) === JSON.stringify(b2) &&
@@ -1258,11 +1273,11 @@ function testString_includes(test, pass, miss) {
     var a4 = str.includes('To be', 1);    // false
     var a5 = str.includes('TO BE');       // false
 
-    var b1 = ES[6].String.prototype.includes.call(str, 'To be');       // true
-    var b2 = ES[6].String.prototype.includes.call(str, 'question');    // true
-    var b3 = ES[6].String.prototype.includes.call(str, 'nonexistent'); // false
-    var b4 = ES[6].String.prototype.includes.call(str, 'To be', 1);    // false
-    var b5 = ES[6].String.prototype.includes.call(str, 'TO BE');       // false
+    var b1 = WebModule.ES[6].String.prototype.includes.call(str, 'To be');       // true
+    var b2 = WebModule.ES[6].String.prototype.includes.call(str, 'question');    // true
+    var b3 = WebModule.ES[6].String.prototype.includes.call(str, 'nonexistent'); // false
+    var b4 = WebModule.ES[6].String.prototype.includes.call(str, 'To be', 1);    // false
+    var b5 = WebModule.ES[6].String.prototype.includes.call(str, 'TO BE');       // false
 
     if ( JSON.stringify(a1) === JSON.stringify(b1) &&
          JSON.stringify(a2) === JSON.stringify(b2) &&
@@ -1282,9 +1297,9 @@ function testString_startsWith(test, pass, miss) {
     var a2 = str.startsWith('not to be');     // false
     var a3 = str.startsWith('not to be', 10); // true
 
-    var b1 = ES[6].String.prototype.startsWith.call(str, 'To be');         // true
-    var b2 = ES[6].String.prototype.startsWith.call(str, 'not to be');     // false
-    var b3 = ES[6].String.prototype.startsWith.call(str, 'not to be', 10); // true
+    var b1 = WebModule.ES[6].String.prototype.startsWith.call(str, 'To be');         // true
+    var b2 = WebModule.ES[6].String.prototype.startsWith.call(str, 'not to be');     // false
+    var b3 = WebModule.ES[6].String.prototype.startsWith.call(str, 'not to be', 10); // true
 
     if ( JSON.stringify(a1) === JSON.stringify(b1) &&
          JSON.stringify(a2) === JSON.stringify(b2) &&
@@ -1302,9 +1317,9 @@ function testString_endWith(test, pass, miss) {
     var a2 = str.endsWith('to be');     // false
     var a3 = str.endsWith('to be', 19); // true
 
-    var b1 = ES[6].String.prototype.endsWith.call(str, 'question.'); // true
-    var b2 = ES[6].String.prototype.endsWith.call(str, 'to be');     // false
-    var b3 = ES[6].String.prototype.endsWith.call(str, 'to be', 19); // true
+    var b1 = WebModule.ES[6].String.prototype.endsWith.call(str, 'question.'); // true
+    var b2 = WebModule.ES[6].String.prototype.endsWith.call(str, 'to be');     // false
+    var b3 = WebModule.ES[6].String.prototype.endsWith.call(str, 'to be', 19); // true
 
     if ( JSON.stringify(a1) === JSON.stringify(b1) &&
          JSON.stringify(a2) === JSON.stringify(b2) &&
@@ -1324,13 +1339,13 @@ function testNumber_isInteger(test, pass, miss) {
     var a6 = Number.isInteger(0);       // true
     var a7 = Number.isInteger("10");    // false
 
-    var b1 = ES[6].Number.isInteger(0.1);     // false
-    var b2 = ES[6].Number.isInteger(1);       // true
-    var b3 = ES[6].Number.isInteger(Math.PI); // false
-    var b4 = ES[6].Number.isInteger(-100000); // true
-    var b5 = ES[6].Number.isInteger(NaN);     // false
-    var b6 = ES[6].Number.isInteger(0);       // true
-    var b7 = ES[6].Number.isInteger("10");    // false
+    var b1 = WebModule.ES[6].Number.isInteger(0.1);     // false
+    var b2 = WebModule.ES[6].Number.isInteger(1);       // true
+    var b3 = WebModule.ES[6].Number.isInteger(Math.PI); // false
+    var b4 = WebModule.ES[6].Number.isInteger(-100000); // true
+    var b5 = WebModule.ES[6].Number.isInteger(NaN);     // false
+    var b6 = WebModule.ES[6].Number.isInteger(0);       // true
+    var b7 = WebModule.ES[6].Number.isInteger("10");    // false
 
     if ( JSON.stringify(a1) === JSON.stringify(b1) &&
          JSON.stringify(a2) === JSON.stringify(b2) &&
@@ -1355,14 +1370,14 @@ function testNumber_isSafeInteger(test, pass, miss) {
     var a7 = Number.isSafeInteger(3.1);                  // false
     var a8 = Number.isSafeInteger(3.0);                  // true
 
-    var b1 = ES[6].Number.isSafeInteger(3);                    // true
-    var b2 = ES[6].Number.isSafeInteger(Math.pow(2, 53));      // false
-    var b3 = ES[6].Number.isSafeInteger(Math.pow(2, 53) - 1);  // true
-    var b4 = ES[6].Number.isSafeInteger(NaN);                  // false
-    var b5 = ES[6].Number.isSafeInteger(Infinity);             // false
-    var b6 = ES[6].Number.isSafeInteger('3');                  // false
-    var b7 = ES[6].Number.isSafeInteger(3.1);                  // false
-    var b8 = ES[6].Number.isSafeInteger(3.0);                  // true
+    var b1 = WebModule.ES[6].Number.isSafeInteger(3);                    // true
+    var b2 = WebModule.ES[6].Number.isSafeInteger(Math.pow(2, 53));      // false
+    var b3 = WebModule.ES[6].Number.isSafeInteger(Math.pow(2, 53) - 1);  // true
+    var b4 = WebModule.ES[6].Number.isSafeInteger(NaN);                  // false
+    var b5 = WebModule.ES[6].Number.isSafeInteger(Infinity);             // false
+    var b6 = WebModule.ES[6].Number.isSafeInteger('3');                  // false
+    var b7 = WebModule.ES[6].Number.isSafeInteger(3.1);                  // false
+    var b8 = WebModule.ES[6].Number.isSafeInteger(3.0);                  // true
 
     if ( JSON.stringify(a1) === JSON.stringify(b1) &&
          JSON.stringify(a2) === JSON.stringify(b2) &&
@@ -1461,87 +1476,87 @@ function testMath(test, pass, miss) {
     var a166 = Math.trunc('foo');    // NaN
     var a167 = Math.trunc();         // NaN
 
-    var b01 = ES[6].Math.acosh(-1); // NaN
-    var b02 = ES[6].Math.acosh(0);  // NaN
-    var b03 = ES[6].Math.acosh(0.5) // NaN
-    var b04 = ES[6].Math.acosh(1);  // 0
-    var b05 = ES[6].Math.acosh(2);  // 1.3169578969248166
-    var b10 = ES[6].Math.asinh(1);  // 0.881373587019543
-    var b11 = ES[6].Math.asinh(0);  // 0
-    var b20 = ES[6].Math.atanh(-2);  // NaN
-    var b21 = ES[6].Math.atanh(-1);  // -Infinity
-    var b22 = ES[6].Math.atanh(0);   // 0
-    var b23 = ES[6].Math.atanh(0.5); // 0.5493061443340548
-    var b24 = ES[6].Math.atanh(1);   // Infinity
-    var b25 = ES[6].Math.atanh(2);   // NaN
-    var b30 = ES[6].Math.cbrt(-1); // -1
-    var b31 = ES[6].Math.cbrt(0);  // 0
-    var b32 = ES[6].Math.cbrt(1);  // 1
-    var b33 = ES[6].Math.cbrt(2);  // 1.2599210498948734
-    var b40 = ES[6].Math.clz32(1);                // 31
-    var b41 = ES[6].Math.clz32(1000);             // 22
-    var b42 = ES[6].Math.clz32();                 // 32
-    var b43 = ES[6].Math.clz32(true);             // 31
-    var b44 = ES[6].Math.clz32(3.5);              // 30
-    var b50 = ES[6].Math.cosh(0);  // 1
-    var b51 = ES[6].Math.cosh(1);  // 1.5430806348152437
-    var b52 = ES[6].Math.cosh(-1); // 1.5430806348152437
-    var b60 = ES[6].Math.expm1(-1); // -0.6321205588285577 
-    var b61 = ES[6].Math.expm1(0);  // 0
-    var b62 = ES[6].Math.expm1(1);  // 1.718281828459045
-    var b70 = ES[6].Math.fround(0);     // 0
-    var b71 = ES[6].Math.fround(1);     // 1
-    var b72 = ES[6].Math.fround(1.337); // 1.3370000123977661
-    var b73 = ES[6].Math.fround(1.5);   // 1.5
-    var b74 = ES[6].Math.fround(NaN);   // NaN
-    var b80 = ES[6].Math.hypot(3, 4);        // 5
-    var b81 = ES[6].Math.hypot(3, 4, 5);     // 7.0710678118654755
-    var b82 = ES[6].Math.hypot();            // 0
-    var b83 = ES[6].Math.hypot(NaN);         // NaN
-    var b84 = ES[6].Math.hypot(3, 4, 'foo'); // NaN, +'foo' => NaN
-    var b85 = ES[6].Math.hypot(3, 4, '5');   // 7.0710678118654755, +'5' => 5
-    var b86 = ES[6].Math.hypot(-3);          // 3, the same as Math.abs(-3)
-    var b90 = ES[6].Math.imul(2, 4);          // 8
-    var b91 = ES[6].Math.imul(-1, 8);         // -8
-    var b92 = ES[6].Math.imul(-2, -2);        // 4
-    var b93 = ES[6].Math.imul(0xffffffff, 5); // -5
-    var b94 = ES[6].Math.imul(0xfffffffe, 5); // -10
-    var b100 = ES[6].Math.log10(2);      // 0.3010299956639812
-    var b101 = ES[6].Math.log10(1);      // 0
-    var b102 = ES[6].Math.log10(0);      // -Infinity
-    var b103 = ES[6].Math.log10(-2);     // NaN
-    var b104 = ES[6].Math.log10(100000); // 5
-    var b110 = ES[6].Math.log1p(1);  // 0.6931471805599453
-    var b111 = ES[6].Math.log1p(0);  // 0
-    var b112 = ES[6].Math.log1p(-1); // -Infinity
-    var b113 = ES[6].Math.log1p(-2); // NaN
-    var b120 = ES[6].Math.log2(3);    // 1.584962500721156
-    var b121 = ES[6].Math.log2(2);    // 1
-    var b122 = ES[6].Math.log2(1);    // 0
-    var b123 = ES[6].Math.log2(0);    // -Infinity
-    var b124 = ES[6].Math.log2(-2);   // NaN
-    var b125 = ES[6].Math.log2(1024); // 10
-    var b130 = ES[6].Math.sign(3);     //  1
-    var b131 = ES[6].Math.sign(-3);    // -1
-    var b132 = ES[6].Math.sign('-3');  // -1
-    var b133 = ES[6].Math.sign(0);     //  0
-    var b134 = ES[6].Math.sign(-0);    // -0
-    var b135 = ES[6].Math.sign(NaN);   // NaN
-    var b136 = ES[6].Math.sign('foo'); // NaN
-    var b137 = ES[6].Math.sign();      // NaN
-    var b140 = ES[6].Math.sinh(0); // 0
-    var b141 = ES[6].Math.sinh(1); // 1.1752011936438014
-    var b150 = ES[6].Math.tanh(0);        // 0
-    var b151 = ES[6].Math.tanh(Infinity); // 1
-    var b152 = ES[6].Math.tanh(1);        // 0.7615941559557649
-    var b160 = ES[6].Math.trunc(13.37);    // 13
-    var b161 = ES[6].Math.trunc(42.84);    // 42
-    var b162 = ES[6].Math.trunc(0.123);    //  0
-    var b163 = ES[6].Math.trunc(-0.123);   // -0
-    var b164 = ES[6].Math.trunc('-1.123'); // -1
-    var b165 = ES[6].Math.trunc(NaN);      // NaN
-    var b166 = ES[6].Math.trunc('foo');    // NaN
-    var b167 = ES[6].Math.trunc();         // NaN
+    var b01 = WebModule.ES[6].Math.acosh(-1); // NaN
+    var b02 = WebModule.ES[6].Math.acosh(0);  // NaN
+    var b03 = WebModule.ES[6].Math.acosh(0.5) // NaN
+    var b04 = WebModule.ES[6].Math.acosh(1);  // 0
+    var b05 = WebModule.ES[6].Math.acosh(2);  // 1.3169578969248166
+    var b10 = WebModule.ES[6].Math.asinh(1);  // 0.881373587019543
+    var b11 = WebModule.ES[6].Math.asinh(0);  // 0
+    var b20 = WebModule.ES[6].Math.atanh(-2);  // NaN
+    var b21 = WebModule.ES[6].Math.atanh(-1);  // -Infinity
+    var b22 = WebModule.ES[6].Math.atanh(0);   // 0
+    var b23 = WebModule.ES[6].Math.atanh(0.5); // 0.5493061443340548
+    var b24 = WebModule.ES[6].Math.atanh(1);   // Infinity
+    var b25 = WebModule.ES[6].Math.atanh(2);   // NaN
+    var b30 = WebModule.ES[6].Math.cbrt(-1); // -1
+    var b31 = WebModule.ES[6].Math.cbrt(0);  // 0
+    var b32 = WebModule.ES[6].Math.cbrt(1);  // 1
+    var b33 = WebModule.ES[6].Math.cbrt(2);  // 1.2599210498948734
+    var b40 = WebModule.ES[6].Math.clz32(1);                // 31
+    var b41 = WebModule.ES[6].Math.clz32(1000);             // 22
+    var b42 = WebModule.ES[6].Math.clz32();                 // 32
+    var b43 = WebModule.ES[6].Math.clz32(true);             // 31
+    var b44 = WebModule.ES[6].Math.clz32(3.5);              // 30
+    var b50 = WebModule.ES[6].Math.cosh(0);  // 1
+    var b51 = WebModule.ES[6].Math.cosh(1);  // 1.5430806348152437
+    var b52 = WebModule.ES[6].Math.cosh(-1); // 1.5430806348152437
+    var b60 = WebModule.ES[6].Math.expm1(-1); // -0.6321205588285577 
+    var b61 = WebModule.ES[6].Math.expm1(0);  // 0
+    var b62 = WebModule.ES[6].Math.expm1(1);  // 1.718281828459045
+    var b70 = WebModule.ES[6].Math.fround(0);     // 0
+    var b71 = WebModule.ES[6].Math.fround(1);     // 1
+    var b72 = WebModule.ES[6].Math.fround(1.337); // 1.3370000123977661
+    var b73 = WebModule.ES[6].Math.fround(1.5);   // 1.5
+    var b74 = WebModule.ES[6].Math.fround(NaN);   // NaN
+    var b80 = WebModule.ES[6].Math.hypot(3, 4);        // 5
+    var b81 = WebModule.ES[6].Math.hypot(3, 4, 5);     // 7.0710678118654755
+    var b82 = WebModule.ES[6].Math.hypot();            // 0
+    var b83 = WebModule.ES[6].Math.hypot(NaN);         // NaN
+    var b84 = WebModule.ES[6].Math.hypot(3, 4, 'foo'); // NaN, +'foo' => NaN
+    var b85 = WebModule.ES[6].Math.hypot(3, 4, '5');   // 7.0710678118654755, +'5' => 5
+    var b86 = WebModule.ES[6].Math.hypot(-3);          // 3, the same as Math.abs(-3)
+    var b90 = WebModule.ES[6].Math.imul(2, 4);          // 8
+    var b91 = WebModule.ES[6].Math.imul(-1, 8);         // -8
+    var b92 = WebModule.ES[6].Math.imul(-2, -2);        // 4
+    var b93 = WebModule.ES[6].Math.imul(0xffffffff, 5); // -5
+    var b94 = WebModule.ES[6].Math.imul(0xfffffffe, 5); // -10
+    var b100 = WebModule.ES[6].Math.log10(2);      // 0.3010299956639812
+    var b101 = WebModule.ES[6].Math.log10(1);      // 0
+    var b102 = WebModule.ES[6].Math.log10(0);      // -Infinity
+    var b103 = WebModule.ES[6].Math.log10(-2);     // NaN
+    var b104 = WebModule.ES[6].Math.log10(100000); // 5
+    var b110 = WebModule.ES[6].Math.log1p(1);  // 0.6931471805599453
+    var b111 = WebModule.ES[6].Math.log1p(0);  // 0
+    var b112 = WebModule.ES[6].Math.log1p(-1); // -Infinity
+    var b113 = WebModule.ES[6].Math.log1p(-2); // NaN
+    var b120 = WebModule.ES[6].Math.log2(3);    // 1.584962500721156
+    var b121 = WebModule.ES[6].Math.log2(2);    // 1
+    var b122 = WebModule.ES[6].Math.log2(1);    // 0
+    var b123 = WebModule.ES[6].Math.log2(0);    // -Infinity
+    var b124 = WebModule.ES[6].Math.log2(-2);   // NaN
+    var b125 = WebModule.ES[6].Math.log2(1024); // 10
+    var b130 = WebModule.ES[6].Math.sign(3);     //  1
+    var b131 = WebModule.ES[6].Math.sign(-3);    // -1
+    var b132 = WebModule.ES[6].Math.sign('-3');  // -1
+    var b133 = WebModule.ES[6].Math.sign(0);     //  0
+    var b134 = WebModule.ES[6].Math.sign(-0);    // -0
+    var b135 = WebModule.ES[6].Math.sign(NaN);   // NaN
+    var b136 = WebModule.ES[6].Math.sign('foo'); // NaN
+    var b137 = WebModule.ES[6].Math.sign();      // NaN
+    var b140 = WebModule.ES[6].Math.sinh(0); // 0
+    var b141 = WebModule.ES[6].Math.sinh(1); // 1.1752011936438014
+    var b150 = WebModule.ES[6].Math.tanh(0);        // 0
+    var b151 = WebModule.ES[6].Math.tanh(Infinity); // 1
+    var b152 = WebModule.ES[6].Math.tanh(1);        // 0.7615941559557649
+    var b160 = WebModule.ES[6].Math.trunc(13.37);    // 13
+    var b161 = WebModule.ES[6].Math.trunc(42.84);    // 42
+    var b162 = WebModule.ES[6].Math.trunc(0.123);    //  0
+    var b163 = WebModule.ES[6].Math.trunc(-0.123);   // -0
+    var b164 = WebModule.ES[6].Math.trunc('-1.123'); // -1
+    var b165 = WebModule.ES[6].Math.trunc(NaN);      // NaN
+    var b166 = WebModule.ES[6].Math.trunc('foo');    // NaN
+    var b167 = WebModule.ES[6].Math.trunc();         // NaN
 
     if (JSON.stringify(a01 ) === JSON.stringify(b01 ) &&
         JSON.stringify(a02 ) === JSON.stringify(b02 ) &&
@@ -1650,7 +1665,7 @@ function testMath(test, pass, miss) {
 // --- Set ------------------------------------------------
 function testSet_size(test, pass, miss) {
     var set1 = new Set();
-    var set2 = new ES[6].Set();
+    var set2 = new WebModule.ES[6].Set();
 
     set1.add(1);
     set1.add(5);
@@ -1670,7 +1685,7 @@ function testSet_size(test, pass, miss) {
 
 function testSet_add(test, pass, miss) {
     var set1 = new Set();
-    var set2 = new ES[6].Set();
+    var set2 = new WebModule.ES[6].Set();
 
     set1.add(1);
     set1.add(5).add("some text"); // chainable
@@ -1697,7 +1712,7 @@ function testSet_add(test, pass, miss) {
 
 function testSet_has(test, pass, miss) {
     var set1 = new Set();
-    var set2 = new ES[6].Set();
+    var set2 = new WebModule.ES[6].Set();
 
     set1.add("foo");
     set2.add("foo");
@@ -1717,7 +1732,7 @@ function testSet_has(test, pass, miss) {
 
 function testSet_values(test, pass, miss) {
     var set1 = new Set();
-    var set2 = new ES[6].Set();
+    var set2 = new WebModule.ES[6].Set();
 
     set1.add("foo");
     set1.add("bar");
@@ -1747,7 +1762,7 @@ function testSet_values(test, pass, miss) {
 
 function testSet_entries(test, pass, miss) {
     var set1 = new Set();
-    var set2 = new Set();
+    var set2 = new WebModule.ES[6].Set();
 
     set1.add("foobar");
     set1.add(1);
@@ -1779,7 +1794,7 @@ function testSet_forEach(test, pass, miss) {
     var result1 = [];
     var result2 = [];
     var set1 = new Set(["foo", "bar", undefined]);
-    var set2 = new ES[6].Set(["foo", "bar", undefined]);
+    var set2 = new WebModule.ES[6].Set(["foo", "bar", undefined]);
 
     set1.forEach(function(value, key, set) {
         result1.push(String(key), String(value));
@@ -1798,7 +1813,7 @@ function testSet_forEach(test, pass, miss) {
 
 function testSet_delete(test, pass, miss) {
     var set1 = new Set();
-    var set2 = new ES[6].Set();
+    var set2 = new WebModule.ES[6].Set();
 
     set1.add("foo");
     set2.add("foo");
@@ -1820,7 +1835,7 @@ function testSet_delete(test, pass, miss) {
 
 function testSet_clear(test, pass, miss) {
     var set1 = new Set();
-    var set2 = new ES[6].Set();
+    var set2 = new WebModule.ES[6].Set();
 
     set1.add(1);
     set1.add("foo");
@@ -1852,7 +1867,7 @@ function testSet_clear(test, pass, miss) {
 // --- WeakMap --------------------------------------------
 function testWeakSet(test, pass, miss) {
     var ws1 = new WeakSet();
-    var ws2 = new ES[6].WeakSet();
+    var ws2 = new WebModule.ES[6].WeakSet();
 
     var obj = {};
     var foo = {};
@@ -1887,7 +1902,7 @@ function testWeakSet(test, pass, miss) {
 // --- Map ------------------------------------------------
 function testMap_size(test, pass, miss) {
     var map1 = new Map();
-    var map2 = new ES[6].Map();
+    var map2 = new WebModule.ES[6].Map();
 
     map1.set("a", "alpha");
     map1.set("b", "beta");
@@ -1907,7 +1922,7 @@ function testMap_size(test, pass, miss) {
 
 function testMap_get(test, pass, miss) {
     var map1 = new Map();
-    var map2 = new ES[6].Map();
+    var map2 = new WebModule.ES[6].Map();
 
     map1.set("bar", "foo");
     map2.set("bar", "foo");
@@ -1926,7 +1941,7 @@ function testMap_get(test, pass, miss) {
 
 function testMap_set(test, pass, miss) {
     var map1 = new Map();
-    var map2 = new ES[6].Map();
+    var map2 = new WebModule.ES[6].Map();
 
     map1.set("bar", "foo");
     map1.set(1, "foobar");
@@ -1946,7 +1961,7 @@ function testMap_set(test, pass, miss) {
 
 function testMap_has(test, pass, miss) {
     var map1 = new Map();
-    var map2 = new ES[6].Map();
+    var map2 = new WebModule.ES[6].Map();
 
     map1.set("bar", "foo");
     map2.set("bar", "foo");
@@ -1964,7 +1979,7 @@ function testMap_has(test, pass, miss) {
 
 function testMap_keys(test, pass, miss) {
     var map1 = new Map();
-    var map2 = new ES[6].Map();
+    var map2 = new WebModule.ES[6].Map();
 
     map1.set("0", "foo");
     map1.set(1, "bar");
@@ -1994,7 +2009,7 @@ function testMap_keys(test, pass, miss) {
 
 function testMap_values(test, pass, miss) {
     var map1 = new Map();
-    var map2 = new ES[6].Map();
+    var map2 = new WebModule.ES[6].Map();
 
     map1.set("0", "foo");
     map1.set(1, "bar");
@@ -2023,7 +2038,7 @@ function testMap_values(test, pass, miss) {
 
 function testMap_entries(test, pass, miss) {
     var map1 = new Map();
-    var map2 = new ES[6].Map();
+    var map2 = new WebModule.ES[6].Map();
 
     map1.set("0", "foo");
     map1.set(1, "bar");
@@ -2054,7 +2069,7 @@ function testMap_forEach(test, pass, miss) {
     var result1 = [];
     var result2 = [];
     var map1 = new Map([["foo", 3], ["bar", {}], ["baz", undefined]]);
-    var map2 = new ES[6].Map([["foo", 3], ["bar", {}], ["baz", undefined]]);
+    var map2 = new WebModule.ES[6].Map([["foo", 3], ["bar", {}], ["baz", undefined]]);
 
     map1.forEach(function(value, key, map) {
         result1.push(String(key), String(value));
@@ -2073,7 +2088,7 @@ function testMap_forEach(test, pass, miss) {
 
 function testMap_delete(test, pass, miss) {
     var map1 = new Map();
-    var map2 = new ES[6].Map();
+    var map2 = new WebModule.ES[6].Map();
 
     map1.set("bar", "foo");
     map2.set("bar", "foo");
@@ -2099,7 +2114,7 @@ function testMap_delete(test, pass, miss) {
 
 function testMap_clear(test, pass, miss) {
     var map1 = new Map();
-    var map2 = new ES[6].Map();
+    var map2 = new WebModule.ES[6].Map();
 
     map1.set("bar", "baz");
     map1.set(1, "foo");
@@ -2137,9 +2152,9 @@ function testWeakMap(test, pass, miss) {
     var map2 = new WeakMap();
     var map3 = new WeakMap();
 
-    var mapA = new ES[6].WeakMap();
-    var mapB = new ES[6].WeakMap();
-    var mapC = new ES[6].WeakMap();
+    var mapA = new WebModule.ES[6].WeakMap();
+    var mapB = new WebModule.ES[6].WeakMap();
+    var mapC = new WebModule.ES[6].WeakMap();
 
     var keyObject1 = {};
     var keyObject2 = function(){};
