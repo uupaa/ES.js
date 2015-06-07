@@ -12,8 +12,8 @@ ECMA-262 Script version 5/6/7 polyfill, fallback, shims and documents.
 ## Browser and NW.js(node-webkit)
 
 ```js
-<script src="<your-install-dir>/lib/WebModule.js"></script>
-<script src="<your-install-dir>/lib/ES.js"></script>
+<script src="<module-dir>/lib/WebModule.js"></script>
+<script src="<module-dir>/lib/ES.js"></script>
 <script>
 
 Object.keys({ a: 1, b: 2, c: 3, d: 4 });       // ["a", "b", "c", "d"]
@@ -31,16 +31,16 @@ WebModule.ES[7].Array.prototype.includes.call([1,2,3], 3);     // true
 ## WebWorkers
 
 ```js
-importScripts("<your-install-dir>lib/WebModule.js");
-importScripts("<your-install-dir>lib/ES.js");
+importScripts("<module-dir>lib/WebModule.js");
+importScripts("<module-dir>lib/ES.js");
 
 ```
 
 ## Node.js
 
 ```js
-require("<your-install-dir>lib/WebModule.js");
-require("<your-install-dir>lib/ES.js");
+require("<module-dir>lib/WebModule.js");
+require("<module-dir>lib/ES.js");
 
 ```
 
