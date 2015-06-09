@@ -800,6 +800,9 @@ function Valid_type(value,   // @arg Any
         if (type in global) { // Is this global Class?
             return baseClassName === type;
         }
+//      if (type in global["WebModule"]) { // Is this WebModule Class?
+//          return baseClassName === type;
+//      }
 
         // Valid.register(type) matching
         if (type in _hook) {
@@ -822,6 +825,9 @@ function Valid_type(value,   // @arg Any
                 if (compositeTypes in global) {
                     return _some(compositeTypes);
                 }
+//              if (compositeTypes in global["WebModule"]) {
+//                  return _some(compositeTypes);
+//              }
             }
         }
         return false;

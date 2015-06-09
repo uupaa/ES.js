@@ -1,6 +1,6 @@
 {
   "name": "uupaa.es.js",
-  "version": "0.9.13",
+  "version": "0.9.14",
   "description": "",
   "url": "https://github.com/uupaa/ES.js",
   "keywords": ["es5", "es6", "es7", "polyfill", "uupaa", "WebModule"],
@@ -11,6 +11,9 @@
   "scripts": {
     "sync": "node ../WebModule/run/sync.js; npm update; node ../WebModule/run/page.js",
     "min": "node ../WebModule/run/minify.js --verbose --strict --keep --pretty",
+    "min5": "node ../WebModule/run/minify.js --verbose --strict --keep --pretty @es5",
+    "min6": "node ../WebModule/run/minify.js --verbose --strict --keep --pretty @es5 @es6",
+    "min7": "node ../WebModule/run/minify.js --verbose --strict --keep --pretty @es5 @es6 @es7",
     "build": "node ../WebModule/run/minify.js --verbose --strict --keep --release",
     "watch": "node ../WebModule/run/watch.js --verbose --run lint",
     "page": "node ../WebModule/run/page.js --verbose",
