@@ -1,6 +1,6 @@
 {
   "name": "uupaa.es.js",
-  "version": "0.9.14",
+  "version": "0.9.15",
   "description": "",
   "url": "https://github.com/uupaa/ES.js",
   "keywords": ["es5", "es6", "es7", "polyfill", "uupaa", "WebModule"],
@@ -32,7 +32,7 @@
   },
   "webmodule": {
     "develop": false,
-    "label": ["@dev"],
+    "label": ["@dev", "@es5", "@es6", "@es7", "@esx"],
     "browser": {
       "source": ["lib/ES.js"],
       "output": "release/ES.b.min.js"

@@ -20,6 +20,7 @@ var test = new Test("ES", {
 var ES5_test = 1;
 var ES6_test = 1;
 var ES7_test = 1;
+var ESX_test = 1;
 
 if (IN_BROWSER || IN_NW) {
     test.add([
@@ -134,6 +135,11 @@ if (ES6_test) {
 }
 if (ES7_test) {
     test.add([
+    ]);
+}
+if (ESX_test) {
+    test.add([
+        testESX_ObjectValues
     ]);
 }
 
@@ -2225,6 +2231,16 @@ function testWeakMap(test, pass, miss) {
         }
     }
     test.done(miss());
+}
+
+function testESX_ObjectValues(test, pass, miss) {
+    var source = { a:1, b:2, c:3 };
+
+    if (Object.values(source).join() === [1,2,3].join()) {
+        test.done(pass());
+    } else {
+        test.done(miss());
+    }
 }
 
 return test.run();
