@@ -14,6 +14,9 @@ onmessage = function(event) {
 
     importScripts("../lib/WebModule.js");
 
+    // publish to global
+    WebModule.publish = true;
+
     
     importScripts("wmtools.js");
     importScripts("../lib/ES.js");

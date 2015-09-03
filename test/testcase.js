@@ -142,7 +142,7 @@ if (ESX_test) {
         testESX_ObjectValues,
         testESX_Object_toArray,
         testESX_Array_toObject,
-        testESX_Array_flatten,
+        //testESX_Array_flatten,
     ]);
 }
 
@@ -2238,7 +2238,7 @@ function testWeakMap(test, pass, miss) {
 
 function testESX_ObjectValues(test, pass, miss) {
     var source = { a:1, b:2, c:3 };
-    var result = Object.values(source);
+    var result = ES["x"].Object.values(source);
 
     if (result.join() === [1,2,3].join()) {
         test.done(pass());
@@ -2249,7 +2249,7 @@ function testESX_ObjectValues(test, pass, miss) {
 
 function testESX_Object_toArray(test, pass, miss) {
     var source = { 0:0, 1:1, 2:2, length:3 }; // ArrayLike Object(数字の添字とlengthを持つObject)を配列に変換
-    var result = Object.toArray(source);
+    var result = ES["x"].Object.toArray(source);
 
     if (result.join() === [0,1,2].join()) {
         test.done(pass());
@@ -2264,7 +2264,7 @@ function testESX_Array_toObject(test, pass, miss) {
     array.one = 1;
     array.two = 2;
 
-    var result = Array.toObject(array);
+    var result = ES["x"].Array.toObject(array);
 
     if (JSON.stringify(result) == JSON.stringify({ "0": 0, "1": 3, "one": 1, "two": 2 })) {
         test.done(pass());
