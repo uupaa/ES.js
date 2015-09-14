@@ -1,0 +1,30 @@
+<style>
+body { background: red; margin: 0; padding: 0 }
+.ok { background: lime }
+</style>
+
+<body>
+<p>ES6 shorthand methods</p>
+
+<script>
+window.onload = function() {
+    // ES5 style
+    var ES5_obj = {
+        method: function() { return true; }
+    };
+
+    // ES6 style
+    var ES6_obj = {
+        method() { return true; }
+    };
+
+    if ( ES5_obj.method() && ES6_obj.method() ) {
+        document.body.classList.add("ok");
+    }
+};
+
+</script>
+<script>
+document.body.innerHTML += "<pre>" + [].slice.call(document.scripts)[0].innerText + "</pre>";
+</script>
+</body>
