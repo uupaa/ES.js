@@ -1,0 +1,28 @@
+<style>
+body { background: red; margin: 0; padding: 0 }
+.ok { background: lime }
+</style>
+
+<body>
+<p>ES6 shorthand properties</p>
+
+<script>
+window.onload = function() {
+    // ES5 style
+    var x = 1;
+    var ES5_obj = { x: x };
+
+    // ES6 style
+    var x = 1;
+    var ES6_obj = { x };
+
+    if (ES5_obj.x === 1 && ES6_obj.x === 1) {
+        document.body.classList.add("ok");
+    }
+};
+
+</script>
+<script>
+document.body.innerHTML += "<pre>" + [].slice.call(document.scripts)[0].innerText + "</pre>";
+</script>
+</body>
