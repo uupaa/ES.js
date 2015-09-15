@@ -5,7 +5,7 @@ pre { white-space: pre }
 </style>
 
 <body>
-<p>ES6 shorthand methods</p>
+<p>ES6 computed property</p>
 
 <script>
 function ok() {
@@ -17,24 +17,16 @@ window.onload = function() {
 </script>
 <script>
 // ES5 style
-var ES5_obj = {
-    init: function(value) { this._bar = value; },
-    get bar() { return this._bar; },
-    set bar(value) { this._bar = value; },
-};
+var prop = "prop";
+var ES5_obj = {};
+ES5_obj[prop + "_"] = 6;
 
 // ES6 style
-var ES6_obj = {
-    init(value) { this._bar = value; },
-    get bar() { return this._bar; },
-    set bar(value) { this._bar = value; },
-};
+var prop = "prop";
+var ES6_obj = { [prop + "_"]: 6 }
 
-ES5_obj.init(29);
-ES6_obj.init(29);
-
-if ( ES5_obj.bar === 29 &&
-     ES6_obj.bar === 29 ) {
+if ( ES5_obj["prop_"] === 6 &&
+     ES6_obj["prop_"] === 6 ) {
     ok();
 }
 </script>

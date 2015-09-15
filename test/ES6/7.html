@@ -5,7 +5,7 @@ pre { white-space: pre }
 </style>
 
 <body>
-<p>ES6 shorthand methods</p>
+<p>ES6 for..of loops</p>
 
 <script>
 function ok() {
@@ -16,25 +16,23 @@ window.onload = function() {
 };
 </script>
 <script>
+var array = [ 1, 2, 4 ];
+var ES5_result = [];
+var ES6_result = [];
+
 // ES5 style
-var ES5_obj = {
-    init: function(value) { this._bar = value; },
-    get bar() { return this._bar; },
-    set bar(value) { this._bar = value; },
-};
+for (var index in array) {
+    ES5_result.push(array[index]);
+}
 
 // ES6 style
-var ES6_obj = {
-    init(value) { this._bar = value; },
-    get bar() { return this._bar; },
-    set bar(value) { this._bar = value; },
-};
+for (var value of array) {
+    ES6_result.push(value);
+}
 
-ES5_obj.init(29);
-ES6_obj.init(29);
 
-if ( ES5_obj.bar === 29 &&
-     ES6_obj.bar === 29 ) {
+if ( ES5_result.join() === "1,2,4" &&
+     ES6_result.join() === "1,2,4" ) {
     ok();
 }
 </script>

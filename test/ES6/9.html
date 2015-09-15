@@ -1,0 +1,65 @@
+<style>
+body { background: red; margin: 0; padding: 0; font-family: monospace }
+pre { white-space: pre }
+.ok { background: lime }
+</style>
+
+<body>
+<p>ES6 for..of loops (Generators)</p>
+<div style="display: none">
+    <span>1</span>
+    <span>2</span>
+    <span>3</span>
+</div>
+
+<script>
+function ok() {
+    document.body.classList.add("ok");
+}
+window.onload = function() {
+    document.body.innerHTML += "<pre>" + [].slice.call(document.scripts)[1].textContent + "</pre>";
+};
+</script>
+<script>
+// ES5 style
+function ES5_generator(i) {
+    var index = 0;
+    var value = i;
+    return function() {
+        switch (index++) {
+        case 0: return { value: value + 1, doen: false };
+        case 1: return { value: value + 2, doen: false };
+        case 2: return { value: value + 3, doen: false };
+        }
+        return { value: undefined, doen: true };
+    };
+}
+var ES5_gen = ES6_generator(10);
+var ES5_getValues = [
+    ES5_gen.next().value,
+    ES5_gen.next().value,
+    ES5_gen.next().value,
+    ES5_gen.next().value, // undefined
+];
+
+// ES6 style
+function* ES6_generator(i) {
+  yield i + 1;
+  yield i + 2;
+  yield i + 3;
+}
+var ES6_gen = ES6_generator(10);
+var ES6_getValues = [
+    ES6_gen.next().value,
+    ES6_gen.next().value,
+    ES6_gen.next().value,
+    ES6_gen.next().value, // undefined
+];
+
+if ( ES5_getValues.join() === "11,12,13," &&
+     ES6_getValues.join() === "11,12,13," ) {
+    ok();
+}
+</script>
+</body>
+

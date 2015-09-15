@@ -12,7 +12,7 @@ function ok() {
     document.body.classList.add("ok");
 }
 window.onload = function() {
-    document.body.innerHTML += "<pre>" + [].slice.call(document.scripts)[1].innerText + "</pre>";
+    document.body.innerHTML += "<pre>" + [].slice.call(document.scripts)[1].textContent + "</pre>";
 };
 </script>
 <script>

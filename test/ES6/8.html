@@ -1,0 +1,51 @@
+<style>
+body { background: red; margin: 0; padding: 0; font-family: monospace }
+pre { white-space: pre }
+.ok { background: lime }
+</style>
+
+<body>
+<p>ES6 for..of loops (ArrayLike Collection)</p>
+<div style="display: none">
+    <span>1</span>
+    <span>2</span>
+    <span>3</span>
+</div>
+
+<script>
+function ok() {
+    document.body.classList.add("ok");
+}
+window.onload = function() {
+    document.body.innerHTML += "<pre>" + [].slice.call(document.scripts)[1].textContent + "</pre>";
+};
+</script>
+<script>
+var nodeList = document.querySelectorAll("span");
+
+// ES5 style
+var ES5_nodeArray1 = [].slice.call(nodeList);
+
+var ES5_nodeArray2 = [];
+for (var i = 0, iz = nodeList.length; i < iz; ++i) {
+    ES5_nodeArray2.push(nodeList[i].textContent);
+}
+
+// ES6 style
+var ES6_nodeArray1 = Array.from(nodeList);
+
+var ES6_nodeArray2 = [];
+for (var node of nodeList) {
+    ES6_nodeArray2.push(node.textContent);
+}
+
+
+if ( ES5_nodeArray1.length === 3 &&
+     ES5_nodeArray2.join() === "1,2,3" &&
+     ES6_nodeArray1.length === 3 &&
+     ES6_nodeArray2.join() === "1,2,3" ) {
+    ok();
+}
+</script>
+</body>
+

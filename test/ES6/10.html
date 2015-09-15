@@ -5,7 +5,7 @@ pre { white-space: pre }
 </style>
 
 <body>
-<p>ES6 shorthand methods</p>
+<p>ES6 let, const</p>
 
 <script>
 function ok() {
@@ -16,25 +16,21 @@ window.onload = function() {
 };
 </script>
 <script>
+"use strict";
+
 // ES5 style
-var ES5_obj = {
-    init: function(value) { this._bar = value; },
-    get bar() { return this._bar; },
-    set bar(value) { this._bar = value; },
-};
+var ES5_let = 123;
+var ES5_const = 123;
 
 // ES6 style
-var ES6_obj = {
-    init(value) { this._bar = value; },
-    get bar() { return this._bar; },
-    set bar(value) { this._bar = value; },
-};
+let ES6_let = 123;
+const ES6_const = 123;
+try {
+    ES6_const = 1;
+} catch (err) {}
 
-ES5_obj.init(29);
-ES6_obj.init(29);
-
-if ( ES5_obj.bar === 29 &&
-     ES6_obj.bar === 29 ) {
+if ( ES5_let === ES5_const &&
+     ES6_let === ES6_const ) {
     ok();
 }
 </script>
