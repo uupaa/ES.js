@@ -1,0 +1,32 @@
+<style>@import "css/app.css";@import "css/code.css";</style>
+<script src="js/app.js"></script>
+
+<body>ES6 Class
+<script>
+// --- ES5 style ---
+function ES5_ClassA(value) {
+  this._value = value;
+}
+ES5_ClassA.prototype = Object.create(ES5_ClassA, {
+  constructor: { value: ES5_ClassA },
+  handleEvent: { value: function(event) { } },
+  value: { get: function() { return this._value; } },
+});
+
+
+// --- ES6 style ---
+class ES6_ClassA {
+  constructor(value) { this._value = value; }
+  handleEvent(event) { }
+  get value()        { return this._value; }
+}
+
+var es5a = new ES5_ClassA(123);
+var es6a = new ES6_ClassA(123);
+
+judge(es5a.value === es6a.value);
+</script>
+<script src="js/code.js"></script>
+<script>SyntaxHighlighter.all()</script>
+</body>
+

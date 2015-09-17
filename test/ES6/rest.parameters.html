@@ -1,0 +1,29 @@
+<style>@import "css/app.css";@import "css/code.css";</style>
+<script src="js/app.js"></script>
+
+<body>ES6 rest parameters
+<script>
+// --- ES5 style ---
+function ES5_foo(arg1, var_args) {
+  var args = [].slice.call(arguments, 1);
+  if (args instanceof Array) {
+    return args[0] * args[1];
+  }
+  return 0;
+}
+
+// --- ES6 style ---
+function ES6_foo(arg1, ...args) {
+  if (args instanceof Array) {
+    return args[0] * args[1];
+  }
+  return 0;
+}
+
+judge(ES5_foo(1, 2, 3) === 6 &&
+      ES6_foo(1, 2, 3) === 6);
+</script>
+<script src="js/code.js"></script>
+<script>SyntaxHighlighter.all()</script>
+</body>
+

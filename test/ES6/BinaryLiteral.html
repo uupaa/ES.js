@@ -1,0 +1,32 @@
+<style>@import "css/app.css";@import "css/code.css";</style>
+<script src="js/app.js"></script>
+
+<body>ES6 Binary literal
+<script>
+// --- ES5 style ---
+var ES5_0x000 = 0x000;
+var ES5_0x001 = 0x001;
+var ES5_0x002 = 0x002;
+var ES5_0x003 = 0x003;
+var ES5_0x004 = 0x004;
+var ES5_0x005 = 0x005;
+
+// --- ES6 style ---
+var ES6_0x000 = 0b000;
+var ES6_0x001 = 0b001;
+var ES6_0x002 = 0b010;
+var ES6_0x003 = 0b011;
+var ES6_0x004 = 0b100;
+var ES6_0x005 = 0b101;
+
+judge(ES5_0x000 === ES6_0x000 &&
+      ES5_0x001 === ES6_0x001 &&
+      ES5_0x002 === ES6_0x002 &&
+      ES5_0x003 === ES6_0x003 &&
+      ES5_0x004 === ES6_0x004 &&
+      ES5_0x005 === ES6_0x005);
+</script>
+<script src="js/code.js"></script>
+<script>SyntaxHighlighter.all()</script>
+</body>
+

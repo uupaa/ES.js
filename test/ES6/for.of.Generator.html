@@ -1,0 +1,44 @@
+<style>@import "css/app.css";@import "css/code.css";</style>
+<script src="js/app.js"></script>
+
+<body><p>ES6 for..of generator</p>
+<div style="display: none">
+  <span>1</span><span>2</span><span>3</span>
+</div>
+
+<script>
+// --- ES5 style ---
+function ES5_generator(initialValue) {
+  var callCount = 0, iv = initialValue;
+  return {
+    next: function() {
+      switch (callCount++) {
+      case 0: return { value: iv + 1, done: false };
+      case 1: return { value: iv + 2, done: false };
+      }
+      return { value: undefined, done: true };
+    }
+  };
+}
+var ES5_gen = ES5_generator(10);
+var ES5_value = [ES5_gen.next().value,
+                 ES5_gen.next().value,
+                 ES5_gen.next().value]; // undefined
+
+// --- ES6 style ---
+function* ES6_generator(initialValue) {
+  yield initialValue + 1;
+  yield initialValue + 2;
+}
+var ES6_gen = ES6_generator(10);
+var ES6_value = [ES6_gen.next().value,
+                 ES6_gen.next().value,
+                 ES6_gen.next().value]; // undefined
+
+judge(ES5_value.join() === "11,12," &&
+      ES6_value.join() === "11,12,");
+</script>
+<script src="js/code.js"></script>
+<script>SyntaxHighlighter.all()</script>
+</body>
+

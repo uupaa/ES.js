@@ -1,0 +1,26 @@
+<style>@import "css/app.css";@import "css/code.css";</style>
+<script src="js/app.js"></script>
+
+<body>ES6 Octet literal
+<script>
+// --- ES5 style ---
+var ES5_0o000 = 0x000;
+var ES5_0o007 = 0x007;
+var ES5_0o077 = 0x03f;
+var ES5_0o777 = 0x1ff;
+
+// --- ES6 style ---
+var ES6_0o000 = 0o000;
+var ES6_0o007 = 0o007;
+var ES6_0o077 = 0o077;
+var ES6_0o777 = 0o777;
+
+judge(ES5_0o000 === ES6_0o000 &&
+      ES5_0o007 === ES6_0o007 &&
+      ES5_0o077 === ES6_0o077 &&
+      ES5_0o777 === ES6_0o777);
+</script>
+<script src="js/code.js"></script>
+<script>SyntaxHighlighter.all()</script>
+</body>
+

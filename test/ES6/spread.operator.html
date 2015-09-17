@@ -1,0 +1,27 @@
+<style>@import "css/app.css";@import "css/code.css";</style>
+<script src="js/app.js"></script>
+
+<body>ES6 spread (...) operator
+<script>
+// --- setup ---
+var a = [0, 1], b = [2, 3], c = [4, 5];
+
+// --- ES5 style ---
+var ES5_a = [0, 1];
+Array.prototype.push.apply(ES5_a, b); // merge
+var ES5_b = a.concat(b, c);           // concat
+
+// --- ES6 style ---
+var ES6_a = [0, 1]
+ES6_a.push(...b);                     // merge
+var ES6_b = [...a, ...b, ...c];       // concat
+
+judge(ES5_a.join(",") === "0,1,2,3"     &&
+      ES5_b.join(",") === "0,1,2,3,4,5" &&
+      ES6_a.join(",") === "0,1,2,3"     &&
+      ES6_b.join(",") === "0,1,2,3,4,5");
+</script>
+<script src="js/code.js"></script>
+<script>SyntaxHighlighter.all()</script>
+</body>
+
