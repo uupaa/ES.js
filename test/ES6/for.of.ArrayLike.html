@@ -2,25 +2,23 @@
 <script src="js/app.js"></script>
 
 <body>ES6 for..of ArrayLike
+<div style="display:none"><span>1</span><span>2</span><span>3</span></div>
 <script>
 // --- setup ---
-var obj = { // ArrayLike Object
-  0: 0, 1: 1, 2: 2,
-  length: 3
-};
+var nodeList = document.querySelectorAll("span");
 
 // --- ES5 style ---
-var ES5_array1 = [].slice.call(obj);
+var ES5_array1 = [].slice.call(nodeList);
 var ES5_array2 = [];
-for (var i = 0; iz = obj.length; i < iz; ++i) {
-    ES5_array2.push(obj[i]);
+for (var i = 0, iz = nodeList.length; i < iz; ++i) {
+    ES5_array2.push(nodeList[i].textContent);
 }
 
 // --- ES6 style ---
-var ES6_array1 = Array.from(obj);
+var ES6_array1 = Array.from(nodeList);
 var ES6_array2 = [];
-for (var value of obj) {
-    ES6_array2.push(value);
+for (var value of nodeList) {
+    ES6_array2.push(value.textContent);
 }
 
 judge(ES5_array1.length === 3 &&
