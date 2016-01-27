@@ -2,7 +2,7 @@
 <style>@import "css/app.css";@import "css/code.css";</style>
 <script src="js/app.js"></script>
 
-<body>ES6 Class extends
+<body>ES6 Class Expression
 <script>
 // --- ES5 style ---
 function ES5_ClassA(value) {
@@ -10,28 +10,22 @@ function ES5_ClassA(value) {
 }
 ES5_ClassA.prototype = Object.create(ES5_ClassA, {
   constructor: { value: ES5_ClassA },
+  handleEvent: { value: function(event) { } },
   value: { get: function() { return this._value; } },
 });
 
-function ES5_ClassB() {
-  ES5_ClassA.apply(this, arguments); // call super()
-}
-ES5_ClassB.prototype = Object.create(ES5_ClassA, {
-  constructor: { value: ES5_ClassB },
-  value: { get: function() { return this._value * 2; } },
-});
 
 // --- ES6 style ---
-class ES6_ClassA {
+var ES6_ClassA = class {
   constructor(value) { this._value = value; }
+  handleEvent(event) { }
   get value()        { return this._value; }
-}
-class ES6_ClassB extends ES6_ClassA {
-  get value()        { return this._value * 2; }
-}
+};
 
-judge(new ES5_ClassB(123).value ===
-      new ES6_ClassB(123).value);
+var es5a = new ES5_ClassA(123);
+var es6a = new ES6_ClassA(123);
+
+judge(es5a.value === es6a.value);
 </script>
 <script src="js/code.js"></script>
 <script>SyntaxHighlighter.all()</script>

@@ -1,0 +1,31 @@
+<meta charset="utf-8"></head>
+<style>@import "css/app.css";@import "css/code.css";</style>
+<script src="js/app.js"></script>
+
+<body>ES6 Class Static Method
+<script>
+(function(global) {
+  "use strict";
+
+  // --- ES5 style ---
+  function ES5_ClassA() {
+  }
+  ES5_ClassA.staticMethod = function() { return 1; };
+  ES5_ClassA.prototype = Object.create(ES5_ClassA, {
+    constructor: { value: ES5_ClassA },
+  });
+
+
+  // --- ES6 style ---
+  class ES6_ClassA {
+    constructor() {}
+    static staticMethod() { return 1; }
+  };
+
+  judge(ES5_ClassA.staticMethod() === ES6_ClassA.staticMethod());
+})(this);
+</script>
+<script src="js/code.js"></script>
+<script>SyntaxHighlighter.all()</script>
+</body>
+

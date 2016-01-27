@@ -1,7 +1,8 @@
+<meta charset="utf-8"></head>
 <style>@import "css/app.css";@import "css/code.css";</style>
 <script src="js/app.js"></script>
 
-<body>ES6 const
+<body>ES6 let
 <script>
 "use strict"
 
@@ -10,6 +11,9 @@ var ES5_let = 123;
 
 // --- ES6 style ---
 let ES6_let = 123;
+let (ES6_let_block = 123) {
+  console.log(ES6_let_block);
+};
 
 judge(ES5_let === 123 &&
       ES6_let === 123);

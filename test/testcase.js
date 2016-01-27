@@ -20,7 +20,7 @@ var test = new Test("ES", {
 var ES5_test = 1;
 var ES6_test = 1;
 var ES7_test = 1;
-var ESX_test = 1;
+var ESX_test = 0;
 
 if (IN_BROWSER || IN_NW) {
     test.add([
@@ -135,11 +135,13 @@ if (ES6_test) {
 }
 if (ES7_test) {
     test.add([
+        testObject_values,
+        testObject_entries,
+        testArray_includes,
     ]);
 }
 if (ESX_test) {
     test.add([
-        testESX_ObjectValues,
         testESX_Object_toArray,
         testESX_Array_toObject,
         //testESX_Array_flatten,
@@ -2236,9 +2238,9 @@ function testWeakMap(test, pass, miss) {
     test.done(miss());
 }
 
-function testESX_ObjectValues(test, pass, miss) {
+function testObject_values(test, pass, miss) {
     var source = { a:1, b:2, c:3 };
-    var result = ES["x"].Object.values(source);
+    var result = ES["7"].Object.values(source);
 
     if (result.join() === [1,2,3].join()) {
         test.done(pass());
@@ -2246,6 +2248,29 @@ function testESX_ObjectValues(test, pass, miss) {
         test.done(miss());
     }
 }
+
+function testObject_entries(test, pass, miss) {
+    var source = { a:1, b:2, c:3 };
+    var result = ES["7"].Object.entries(source);
+
+    if (JSON.stringify(result) === JSON.stringify([["a",1],["b",2],["c",3]])) {
+        test.done(pass());
+    } else {
+        test.done(miss());
+    }
+}
+
+function testArray_includes(test, pass, miss) {
+    var source = [1, 2, 3];
+    var result = ES["7"].Array.prototype.includes.call(source, 2);
+
+    if (result) {
+        test.done(pass());
+    } else {
+        test.done(miss());
+    }
+}
+
 
 function testESX_Object_toArray(test, pass, miss) {
     var source = { 0:0, 1:1, 2:2, length:3 }; // ArrayLike Object(数字の添字とlengthを持つObject)を配列に変換
