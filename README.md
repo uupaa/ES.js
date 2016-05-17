@@ -4,12 +4,14 @@
 
 ECMA-262 Script version 5/6/7 polyfill, fallback, shims and documents.
 
-## Document
 
-- ES.js made of [WebModule](https://github.com/uupaa/WebModule).
-- [Spec](https://github.com/uupaa/ES.js/wiki/ES)
+This module made of [WebModule](https://github.com/uupaa/WebModule).
 
-## Browser and NW.js(node-webkit)
+## Documentation
+- [Spec](https://github.com/uupaa/ES.js/wiki/)
+- [API Spec](https://github.com/uupaa/ES.js/wiki/ES)
+
+## Browser, NW.js and Electron
 
 ```js
 <script src="<module-dir>/lib/WebModule.js"></script>
@@ -31,16 +33,16 @@ WebModule.ES[7].Array.prototype.includes.call([1,2,3], 3);     // true
 ## WebWorkers
 
 ```js
-importScripts("<module-dir>lib/WebModule.js");
-importScripts("<module-dir>lib/ES.js");
+importScripts("<module-dir>/lib/WebModule.js");
+importScripts("<module-dir>/lib/ES.js");
 
 ```
 
 ## Node.js
 
 ```js
-require("<module-dir>lib/WebModule.js");
-require("<module-dir>lib/ES.js");
+require("<module-dir>/lib/WebModule.js");
+require("<module-dir>/lib/ES.js");
 
 ```
 

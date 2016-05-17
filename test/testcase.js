@@ -1,28 +1,29 @@
 var ModuleTestES = (function(global) {
 
-global["BENCHMARK"] = false;
-
-var test = new Test("ES", {
+var test = new Test(["ES"], { // Add the ModuleName to be tested here (if necessary).
         disable:    false, // disable all tests.
         browser:    true,  // enable browser test.
         worker:     true,  // enable worker test.
         node:       true,  // enable node test.
         nw:         true,  // enable nw.js test.
+        el:         true,  // enable electron (render process) test.
         button:     true,  // show button.
         both:       true,  // test the primary and secondary modules.
         ignoreError:false, // ignore error.
         callback:   function() {
         },
         errorback:  function(error) {
+            console.error(error.message);
         }
     });
 
+// --- test cases ------------------------------------------
 var ES5_test = 1;
 var ES6_test = 1;
 var ES7_test = 1;
 var ESX_test = 0;
 
-if (IN_BROWSER || IN_NW) {
+if (IN_BROWSER || IN_NW || IN_EL) {
     test.add([
         // browser and node-webkit test
     ]);
@@ -126,6 +127,7 @@ if (ES6_test) {
         testMap_keys,
         testMap_values,
         testMap_entries,
+        testMap_entries_for_of,
         testMap_forEach,
         testMap_delete,
         testMap_clear,
@@ -2069,6 +2071,49 @@ function testMap_entries(test, pass, miss) {
         iter2.next().value.join() === ["0", "foo"].join() &&
         iter2.next().value.join() === [1, "bar"].join() &&
         iter2.next().value.join() === ["[object Object]", "baz"].join()) {
+
+        test.done(pass());
+    } else {
+        test.done(miss());
+    }
+}
+
+function testMap_entries_for_of(test, pass, miss) {
+    if (!global["Symbol"]) {
+        test.done(pass());
+        return;
+    }
+
+    var map1 = new Map();
+    var map2 = new WebModule.ES[6].Map();
+
+    map1.set("0", "foo");
+    map1.set(1, "bar");
+    map1.set({}, "baz");
+
+    map2.set("0", "foo");
+    map2.set(1, "bar");
+    map2.set({}, "baz");
+
+    var keys1 = [];
+    var values1 = [];
+    for (var keyValuePair of map1.entries()) {
+        keys1.push(keyValuePair[0]);
+        values1.push(keyValuePair[1]);
+    }
+
+    var keys2 = [];
+    var values2 = [];
+    for (var keyValuePair of map2.entries()) {
+        keys2.push(keyValuePair[0]);
+        values2.push(keyValuePair[1]);
+    }
+
+    if (keys1.join()   === ["0", "1", "[object Object]"].join() &&
+        values1.join() === ["foo", "bar", "baz"].join() &&
+
+        keys2.join()   === ["0", "1", "[object Object]"].join() &&
+        values2.join()  === ["foo", "bar", "baz"].join()) {
 
         test.done(pass());
     } else {
